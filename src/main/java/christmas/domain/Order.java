@@ -11,9 +11,7 @@ import java.util.stream.Collectors;
 
 public class Order {
     private final Map<String, String> orders;
-
     private int orderPrice;
-
     public Order(String orderMenu) {
 
         orders = makeOrders(orderMenu);
@@ -103,12 +101,14 @@ public class Order {
 
     public int calculateOrderPrice() {
 
-        orders.forEach((key, value) -> {
+        int sum = 0;
+
+        for(String key : orders.keySet()) {
+
             Menu menu = Menu.findMenu(key);
+            sum += menu.getPrice() * Integer.parseInt(orders.get(key));
+        }
 
-            orderPrice += menu.getPrice() * Integer.parseInt(value);
-        });
-
-        return orderPrice;
+        return sum;
     }
 }

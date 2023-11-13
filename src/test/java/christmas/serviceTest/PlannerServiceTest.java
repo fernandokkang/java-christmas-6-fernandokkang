@@ -1,6 +1,5 @@
 package christmas.serviceTest;
 import christmas.domain.ReservationInfo;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -25,7 +24,7 @@ public class PlannerServiceTest {
 
         String orderMenu = "티본스테이크-2,레드와인-2";
 
-        reservationInfo.reserveToOrder(orderMenu);
+        reservationInfo.submitOrderWithEvent(orderMenu);
 
         System.out.println(reservationInfo.printOrderMenu());
     }

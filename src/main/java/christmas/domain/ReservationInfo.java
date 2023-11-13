@@ -15,9 +15,10 @@ public class ReservationInfo {
         isCorrectDateRange(parseDate);
     }
 
-    public void reserveToOrder(String orderMenu) {
+    public void submitOrderWithEvent(String orderMenu) {
 
         order = new Order(orderMenu);
+        applyEvent();
     }
 
     private int isInteger(String date) {
@@ -40,6 +41,14 @@ public class ReservationInfo {
         }
     }
 
+    private void applyEvent () {
+
+        int orderPrice = order.calculateOrderPrice();
+        if(orderPrice >= 10000) {
+            event = new Event(date, orderPrice);
+        }
+    }
+
     public String printOrderMenu() {
 
         return order.createOrderMenu();
@@ -52,6 +61,11 @@ public class ReservationInfo {
                 .append(order.calculateOrderPrice()).append("원\n");
 
         return builder.toString();
+    }
+
+    public String printGiftInfo() {
+
+        return event.makeGiftInfo();
     }
 
     public String getDate() {

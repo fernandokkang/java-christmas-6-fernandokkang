@@ -1,6 +1,5 @@
 package christmas.service;
 
-import christmas.domain.Order;
 import christmas.domain.ReservationInfo;
 
 public class PlannerServiceImpl implements PlannerService {
@@ -16,7 +15,7 @@ public class PlannerServiceImpl implements PlannerService {
     @Override
     public void reservationMenu(String orderMenu) {
 
-        reservationInfo.reserveToOrder(orderMenu);
+        reservationInfo.submitOrderWithEvent(orderMenu);
     }
 
     @Override
@@ -29,5 +28,11 @@ public class PlannerServiceImpl implements PlannerService {
     public String printOrderPrice() {
 
         return reservationInfo.printOrderPrice();
+    }
+
+    @Override
+    public String printGift() {
+
+        return reservationInfo.printGiftInfo();
     }
 }

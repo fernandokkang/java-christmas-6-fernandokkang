@@ -27,8 +27,8 @@ public class PlannerController {
         return plannerService.printOrderPrice();
     }
 
-    public void getGift() {
+    public String printGift() {
 
-        //증정 메뉴
+        return plannerService.printGift();
     }
 }

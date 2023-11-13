@@ -20,4 +20,9 @@ public class OutputView {
 
         System.out.println(plannerController.printOrderPrice());
     }
+
+    public void printGift(){
+
+        System.out.println(plannerController.printGift());
+    }
 }
