@@ -5,17 +5,23 @@ import christmas.domain.ReservationInfo;
 
 public class PlannerServiceImpl implements PlannerService {
 
-    private ReservationInfo reservationInfo;
-    private Order order;
+    private final ReservationInfo reservationInfo = new ReservationInfo();
+
     @Override
     public void makeReservationDate(String date) {
 
-        reservationInfo = new ReservationInfo(date);
+        reservationInfo.makeReservation(date);
     }
 
     @Override
     public void reservationMenu(String orderMenu) {
 
         reservationInfo.reserveToOrder(orderMenu);
+    }
+
+    @Override
+    public String printOrderMenu() {
+
+        return reservationInfo.printOrderMenu();
     }
 }

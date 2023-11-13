@@ -17,6 +17,11 @@ public class PlannerController {
         plannerService.reservationMenu(orderMenu);
     }
 
+    public String printOrderMenu() {
+
+        return plannerService.printOrderMenu();
+    }
+
     public void getOrderPrice() {
 
         //할인 전 총 주문 금액

@@ -14,10 +14,7 @@ import christmas.domain.ReservationInfo;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class OrderTest {
@@ -157,5 +154,21 @@ public class OrderTest {
         }
 
         assertThat(message).isEqualTo(ErrorMessage.NOT_EXIST_MENU_ERROR_MESSAGE.getErrorMessage());
+    }
+
+    @Test
+    @DisplayName("주문 메뉴 출력")
+    void printOrderMenu() {
+
+        String orderMenu = "해산물파스타-2,레드와인-1,초코케이크-1";
+
+        Map<String, String> orders = Arrays.stream(orderMenu.split(","))
+                .map(a -> a.split("-", 2))
+                .collect(Collectors.toMap(b -> b[0], b -> b[1]));
+
+        orders.forEach((key, value) -> {
+            Menu menu = Menu.findMenu(key);
+            System.out.println(menu.getMenuName()+" "+value+"개");
+        });
     }
 }

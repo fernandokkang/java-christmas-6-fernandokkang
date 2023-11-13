@@ -9,12 +9,14 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class ReservationInfoTest {
 
+    ReservationInfo reservationInfo = new ReservationInfo();
+
     @Test
     void 날짜_숫자_아닌_경우_예외_처리() {
 
         String date = "11a";
 
-        assertThatThrownBy(() -> new ReservationInfo(date))
+        assertThatThrownBy(() -> reservationInfo.makeReservation(date))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(ErrorMessage.DATE_FORMAT_ERROR_MESSAGE.name());
     }
@@ -24,7 +26,7 @@ public class ReservationInfoTest {
 
         String date = "0";
 
-        assertThatThrownBy(() -> new ReservationInfo(date))
+        assertThatThrownBy(() -> reservationInfo.makeReservation(date))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(ErrorMessage.DATE_RANGE_ERROR_MESSAGE.name());
     }
@@ -34,7 +36,7 @@ public class ReservationInfoTest {
 
         String date = "32";
 
-        assertThatThrownBy(() -> new ReservationInfo(date))
+        assertThatThrownBy(() -> reservationInfo.makeReservation(date))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(ErrorMessage.DATE_RANGE_ERROR_MESSAGE.name());
     }

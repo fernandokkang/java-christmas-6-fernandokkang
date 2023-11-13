@@ -8,15 +8,25 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class PlannerServiceTest {
 
-    private ReservationInfo reservationInfo;
+    ReservationInfo reservationInfo = new ReservationInfo();
 
     @Test
     public void setReservationDateTest() {
 
         String date = "15";
 
-        reservationInfo = new ReservationInfo(date);
+        reservationInfo.makeReservation(date);
 
         assertThat(reservationInfo.getDate()).isEqualTo("15");
+    }
+
+    @Test
+    public void printOrderTest() {
+
+        String orderMenu = "티본스테이크-2,레드와인-2";
+
+        reservationInfo.reserveToOrder(orderMenu);
+
+        System.out.println(reservationInfo.printOrderMenu());
     }
 }

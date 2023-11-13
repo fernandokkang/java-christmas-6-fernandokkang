@@ -10,7 +10,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class Order {
-
     private final Map<String, String> orders;
 
     private int orderPrice;
@@ -37,7 +36,7 @@ public class Order {
 
     private void validate(Map<String, String> orders) {
 
-        if(isExistMenu(orders)) {
+        if(!isExistMenu(orders)) {
             throw new IllegalArgumentException(ErrorMessage.NOT_EXIST_MENU_ERROR_MESSAGE.name());
         }
         if(hasOnlyDrink(orders)) {
@@ -85,5 +84,20 @@ public class Order {
 
             throw new IllegalArgumentException(ErrorMessage.MENU_COUNT_RANGE_ERROR_MESSAGE.name());
         }
+    }
+
+    public String printOrderMenu() {
+
+        StringBuilder builder = new StringBuilder();
+        builder.append("<주문 메뉴>\n");
+
+        if(orders == null) return "주문이 존재하지 않습니다.";
+
+        orders.forEach((key, value) -> {
+            Menu menu = Menu.findMenu(key);
+            builder.append(menu.getMenuName()+" ").append(value+"개\n");
+        });
+
+        return builder.toString();
     }
 }

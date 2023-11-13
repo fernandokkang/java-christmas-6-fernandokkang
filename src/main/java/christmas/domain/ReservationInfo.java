@@ -4,20 +4,21 @@ import christmas.constant.DateRange;
 import christmas.constant.ErrorMessage;
 
 public class ReservationInfo {
-
-    private final String date;
-
+    private String date;
     private Order order;
-
     private Event event;
 
-    public ReservationInfo(String date) {
+    public void makeReservation(String date) {
 
         this.date = date;
         int parseDate = isInteger(date);
         isCorrectDateRange(parseDate);
     }
 
+    public void reserveToOrder(String orderMenu) {
+
+        order = new Order(orderMenu);
+    }
 
     private int isInteger(String date) {
 
@@ -30,12 +31,6 @@ public class ReservationInfo {
             throw new IllegalArgumentException(ErrorMessage.DATE_FORMAT_ERROR_MESSAGE.name());
         }
     }
-
-    public void reserveToOrder(String orderMenu) {
-
-        order = new Order(orderMenu);
-    }
-
     private void isCorrectDateRange(int date) {
 
         if(DateRange.DECEMBER.getFirstDay() > date ||
@@ -43,6 +38,11 @@ public class ReservationInfo {
 
             throw new IllegalArgumentException(ErrorMessage.DATE_RANGE_ERROR_MESSAGE.name());
         }
+    }
+
+    public String printOrderMenu() {
+
+        return order.printOrderMenu();
     }
 
     public String getDate() {
