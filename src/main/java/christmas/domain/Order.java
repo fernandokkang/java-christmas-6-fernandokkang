@@ -18,8 +18,7 @@ public class Order {
     public Order(String orderMenu) {
 
         orders = makeOrders(orderMenu);
-        existMenuCheck(orders);
-        onlyDrinkCheck(orders);
+        validate(orders);
         calculateMenuCount(orders);
     }
 
@@ -36,34 +35,40 @@ public class Order {
         }
     }
 
-    private void existMenuCheck(Map<String, String> orders) {
+    private void validate(Map<String, String> orders) {
 
-        for (String key : orders.keySet()) {
-
-            Menu menu = Menu.findMenu(key);
-
-            if(Menu.EMPTY.equals(menu)){
-
-                throw new IllegalArgumentException(ErrorMessage.NOT_EXIST_MENU_ERROR_MESSAGE.name());
-            }
+        if(isExistMenu(orders)) {
+            throw new IllegalArgumentException(ErrorMessage.NOT_EXIST_MENU_ERROR_MESSAGE.name());
+        }
+        if(hasOnlyDrink(orders)) {
+            throw new IllegalArgumentException(ErrorMessage.ONLY_DRINK_CAN_NOT_ORDER.name());
         }
     }
 
-    private void onlyDrinkCheck(Map<String, String> orders) {
-        String message = InfoMessage.ONLY_DRINK_CAN_NOT_ORDER.getInfoMessage();
+    private boolean isExistMenu(Map<String, String> orders) {
+
+        for (String key : orders.keySet()) {
+            Menu menu = Menu.findMenu(key);
+            if(Menu.EMPTY.equals(menu)){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean hasOnlyDrink(Map<String, String> orders) {
+
         for (String key : orders.keySet()) {
 
             Menu menu = Menu.findMenu(key);
             MenuGroup menuGroup = MenuGroup.findByMenu(menu.getMenuName());
 
             if(!menuGroup.name().equals("DRINK")) {
-                message = "";
-                break;
+
+                return false;
             }
         }
-        if(message.equals(InfoMessage.ONLY_DRINK_CAN_NOT_ORDER.getInfoMessage())){
-            throw new IllegalArgumentException(ErrorMessage.ONLY_DRINK_CAN_NOT_ORDER.name());
-        }
+        return true;
     }
 
     private void calculateMenuCount(Map<String, String> orders) {
