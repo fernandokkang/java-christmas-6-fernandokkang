@@ -19,6 +19,7 @@ public class Order {
 
         orders = makeOrders(orderMenu);
         calculateMenuCount(orders);
+        hasOnlyDrink(orders);
     }
 
     private Map<String, String> makeOrders(String orderMenu) {
@@ -34,11 +35,20 @@ public class Order {
         }
     }
 
-    private void validate(Map<String, String> orders) {
+    private void hasOnlyDrink(Map<String, String> orders) {
+        String message = InfoMessage.ONLY_DRINK_CAN_NOT_ORDER.getInfoMessage();
+        for (String key : orders.keySet()) {
 
-        for (String menu : orders.keySet()) {
+            Menu menu = Menu.findMenu(key);
+            MenuGroup menuGroup = MenuGroup.findByMenu(menu.getMenuName());
 
-
+            if(!menuGroup.name().equals("DRINK")) {
+                message = "";
+                break;
+            }
+        }
+        if(message.equals(InfoMessage.ONLY_DRINK_CAN_NOT_ORDER.getInfoMessage())){
+            throw new IllegalArgumentException(ErrorMessage.ONLY_DRINK_CAN_NOT_ORDER.name());
         }
     }
 
@@ -54,9 +64,7 @@ public class Order {
 
         if(menuCount > 20) {
 
-            throw new IllegalArgumentException(InfoMessage.MORE_THAN_TWENTY_MENUS_CAN_NOT_ORDER.getInfoMessage());
+            throw new IllegalArgumentException(ErrorMessage.MENU_COUNT_RANGE_ERROR_MESSAGE.name());
         }
     }
-
-    //음료만 주문 불가
 }

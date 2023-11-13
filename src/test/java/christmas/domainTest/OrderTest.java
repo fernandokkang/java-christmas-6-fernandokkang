@@ -109,7 +109,7 @@ public class OrderTest {
 
     @Test
     @DisplayName("음료만 있는 경우 주문 불가")
-    void checkMenuTest() {
+    void hasOnlyDrinkTest() {
 
         String orderMenu = "제로콜라-1,레드와인-2,샴페인-3";
 
@@ -127,6 +127,7 @@ public class OrderTest {
 
             if(!menuGroup.name().equals("DRINK")){
                 message = "";
+                break;
             }
         }
 
