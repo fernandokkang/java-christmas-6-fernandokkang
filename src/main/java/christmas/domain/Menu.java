@@ -1,5 +1,7 @@
 package christmas.domain;
 
+import java.util.Arrays;
+
 public enum Menu {
 
     MUSHROOM_SOUP("양송이수프", 6000),
@@ -13,7 +15,8 @@ public enum Menu {
     ICE_CREAM("아이스크림", 5000),
     ZERO_COKE("제로콜라", 3000),
     RED_WINE("레드와인", 60000),
-    CHAMPAGNE("샴페인", 25000);
+    CHAMPAGNE("샴페인", 25000),
+    EMPTY("없음", 0);
 
     private String menuName;
     private int price;
@@ -22,6 +25,16 @@ public enum Menu {
 
         this.menuName = menuName;
         this.price = price;
+    }
+
+    public static Menu findMenu(String menuName) {
+
+        for(Menu menu : Menu.values()) {
+            if(menu.getMenuName().equals(menuName)) {
+                return menu;
+            }
+        }
+        return Menu.EMPTY;
     }
 
 

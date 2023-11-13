@@ -7,15 +7,16 @@ import camp.nextstep.edu.missionutils.test.NsTest;
 import christmas.domain.Menu;
 import christmas.domain.MenuGroup;
 import org.junit.jupiter.api.Test;
-public class MenuGroupTest {
+
+public class MenuTest {
 
     @Test
-    public void MenuGroup_에게_메뉴_타입_물어보기 () {
+    public void Menu_에게_메뉴_이름_물어보기 () {
 
-        String menuName = Menu.ZERO_COKE.getMenuName();
-        MenuGroup menuGroup = MenuGroup.findByMenu(menuName);
+        String menuName = "제로콜라";
+        Menu menu = Menu.findMenu(menuName);
 
-        assertThat(menuGroup.name()).isEqualTo("DRINK");
-        assertThat(menuGroup.getMenuType()).isEqualTo("음료");
+        assertThat(menu).isEqualTo(Menu.ZERO_COKE);
+
     }
 }

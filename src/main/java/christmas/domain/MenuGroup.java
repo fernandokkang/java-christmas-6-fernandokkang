@@ -23,23 +23,14 @@ public enum MenuGroup {
 
     public static MenuGroup findByMenu(String menuName) {
 
-        return Arrays.stream(MenuGroup.values())
-                .filter(MenuGroup->MenuGroup.hasMenuName(menuName))
-                .findAny()
-                .orElse(EMPTY);
-
-    }
-
-    public boolean hasMenuName(String menuName) {
-
         for (MenuGroup menuGroup : MenuGroup.values()) {
             for(Menu menu : menuGroup.menuList){
                 if(menu.getMenuName().equals(menuName)){
-                    return true;
+                    return menuGroup;
                 }
             }
         }
-        return false;
+        return MenuGroup.EMPTY;
     }
 
     public String getMenuType() {
