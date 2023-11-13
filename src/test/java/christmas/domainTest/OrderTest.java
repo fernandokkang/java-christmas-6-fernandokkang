@@ -133,4 +133,29 @@ public class OrderTest {
 
         assertThat(message).isEqualTo(InfoMessage.ONLY_DRINK_CAN_NOT_ORDER.getInfoMessage());
     }
+
+    @Test
+    @DisplayName("메뉴판에 없는 메뉴 주문한 경우 주문 불가")
+    void isExistMenu() {
+
+        String orderMenu = "제로콜라-1,타파스-3,후라이드치킨-2";
+
+        Map<String, String> orderMenus = Arrays.stream(orderMenu.split(","))
+                .map(a -> a.split("-", 2))
+                .collect(Collectors.toMap(b -> b[0], b -> b[1]));
+
+        String message = "";
+
+        for (String key : orderMenus.keySet()) {
+
+            Menu menu = Menu.findMenu(key);
+
+            if(Menu.EMPTY.equals(menu)){
+
+                message = ErrorMessage.NOT_EXIST_MENU_ERROR_MESSAGE.getErrorMessage();
+            }
+        }
+
+        assertThat(message).isEqualTo(ErrorMessage.NOT_EXIST_MENU_ERROR_MESSAGE.getErrorMessage());
+    }
 }

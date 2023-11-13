@@ -18,8 +18,9 @@ public class Order {
     public Order(String orderMenu) {
 
         orders = makeOrders(orderMenu);
+        existMenuCheck(orders);
+        onlyDrinkCheck(orders);
         calculateMenuCount(orders);
-        hasOnlyDrink(orders);
     }
 
     private Map<String, String> makeOrders(String orderMenu) {
@@ -35,7 +36,20 @@ public class Order {
         }
     }
 
-    private void hasOnlyDrink(Map<String, String> orders) {
+    private void existMenuCheck(Map<String, String> orders) {
+
+        for (String key : orders.keySet()) {
+
+            Menu menu = Menu.findMenu(key);
+
+            if(Menu.EMPTY.equals(menu)){
+
+                throw new IllegalArgumentException(ErrorMessage.NOT_EXIST_MENU_ERROR_MESSAGE.name());
+            }
+        }
+    }
+
+    private void onlyDrinkCheck(Map<String, String> orders) {
         String message = InfoMessage.ONLY_DRINK_CAN_NOT_ORDER.getInfoMessage();
         for (String key : orders.keySet()) {
 
