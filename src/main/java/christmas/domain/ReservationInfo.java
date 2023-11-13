@@ -38,8 +38,8 @@ public class ReservationInfo {
 
     private void isCorrectDateRange(int date) {
 
-        if(DateRange.FIRST_DAY_IN_DECEMBER > date ||
-                DateRange.LAST_DAY_IN_DECEMBER < date) {
+        if(DateRange.DECEMBER.getFirstDay() > date ||
+                DateRange.DECEMBER.getLastDay() < date) {
 
             throw new IllegalArgumentException(ErrorMessage.DATE_RANGE_ERROR_MESSAGE.name());
         }
