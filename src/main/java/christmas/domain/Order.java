@@ -44,8 +44,6 @@ public class Order {
     private void calculateMenuCount(Map<String, String> orders) {
 
         if (orders.values().stream()
-                .mapToInt(Integer::valueOf).sum() > 20
-                || orders.values().stream()
                 .mapToInt(Integer::valueOf).sum() < 1) {
 
             throw new IllegalArgumentException(ErrorMessage.MENU_COUNT_RANGE_ERROR_MESSAGE.name());
