@@ -1,6 +1,7 @@
 package christmas.domain;
 
 import christmas.constant.ErrorMessage;
+import christmas.constant.InfoMessage;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -43,10 +44,17 @@ public class Order {
 
     private void calculateMenuCount(Map<String, String> orders) {
 
-        if (orders.values().stream()
-                .mapToInt(Integer::valueOf).sum() < 1) {
+        int menuCount = orders.values().stream()
+                .mapToInt(Integer::valueOf).sum();
+
+        if (menuCount < 1) {
 
             throw new IllegalArgumentException(ErrorMessage.MENU_COUNT_RANGE_ERROR_MESSAGE.name());
+        }
+
+        if(menuCount > 20) {
+
+            throw new IllegalArgumentException(InfoMessage.MORE_THAN_TWENTY_MENUS_CAN_NOT_ORDER.getInfoMessage());
         }
     }
 
