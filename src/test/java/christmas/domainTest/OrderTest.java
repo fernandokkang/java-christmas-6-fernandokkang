@@ -89,14 +89,14 @@ public class OrderTest {
 
         assertThatThrownBy(() -> new Order(orderMenu))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage(ErrorMessage.MENU_COUNT_RANGE_ERROR_MESSAGE.name());
+                .hasMessage(InfoMessage.MORE_THAN_TWENTY_MENUS_CAN_NOT_ORDER.getInfoMessage());
     }
 
     @Test
     @DisplayName("주문 메뉴 개수 위반")
     void 총_주문_메뉴_개수_위반_0개() {
 
-        String orderMenu = "타파스-1,제로콜라-21";
+        String orderMenu = "타파스-0";
 
         Map<String, String> orderMenus = Arrays.stream(orderMenu.split(","))
                 .map(a -> a.split("-", 2))
