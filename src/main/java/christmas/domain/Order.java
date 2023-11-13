@@ -86,7 +86,7 @@ public class Order {
         }
     }
 
-    public String printOrderMenu() {
+    public String createOrderMenu() {
 
         StringBuilder builder = new StringBuilder();
         builder.append("<주문 메뉴>\n");
@@ -99,5 +99,16 @@ public class Order {
         });
 
         return builder.toString();
+    }
+
+    public int calculateOrderPrice() {
+
+        orders.forEach((key, value) -> {
+            Menu menu = Menu.findMenu(key);
+
+            orderPrice += menu.getPrice() * Integer.parseInt(value);
+        });
+
+        return orderPrice;
     }
 }

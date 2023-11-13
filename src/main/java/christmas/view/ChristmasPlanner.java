@@ -16,6 +16,7 @@ public class ChristmasPlanner {
             inputView.enterOrderMenu();
 
             outputView.printOrderMenu();
+            outputView.printOrderPrice();
 
         } catch (Exception e) {
 

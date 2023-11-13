@@ -24,4 +24,10 @@ public class PlannerServiceImpl implements PlannerService {
 
         return reservationInfo.printOrderMenu();
     }
+
+    @Override
+    public String printOrderPrice() {
+
+        return reservationInfo.printOrderPrice();
+    }
 }

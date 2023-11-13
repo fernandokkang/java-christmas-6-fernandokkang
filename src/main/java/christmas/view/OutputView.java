@@ -15,4 +15,9 @@ public class OutputView {
 
         System.out.println(plannerController.printOrderMenu());
     }
+
+    public void printOrderPrice() {
+
+        System.out.println(plannerController.printOrderPrice());
+    }
 }

@@ -42,7 +42,16 @@ public class ReservationInfo {
 
     public String printOrderMenu() {
 
-        return order.printOrderMenu();
+        return order.createOrderMenu();
+    }
+
+    public String printOrderPrice() {
+
+        StringBuilder builder = new StringBuilder();
+        builder.append("<할인 전 총주문 금액>\n")
+                .append(order.calculateOrderPrice()).append("원\n");
+
+        return builder.toString();
     }
 
     public String getDate() {

@@ -19,6 +19,8 @@ import java.util.stream.Collectors;
 
 public class OrderTest {
 
+    private int orderPrice;
+
     @Test
     void makeOrderTest() {
 
@@ -170,5 +172,26 @@ public class OrderTest {
             Menu menu = Menu.findMenu(key);
             System.out.println(menu.getMenuName()+" "+value+"개");
         });
+    }
+
+    @Test
+    @DisplayName("주문 금액 출력")
+    void printOrderPrice() {
+
+        String orderMenu = "해산물파스타-2,레드와인-1,초코케이크-1";
+
+        Map<String, String> orders = Arrays.stream(orderMenu.split(","))
+                .map(a -> a.split("-", 2))
+                .collect(Collectors.toMap(b -> b[0], b -> b[1]));
+
+
+
+        orders.forEach((key, value) -> {
+            Menu menu = Menu.findMenu(key);
+
+            orderPrice += menu.getPrice() * Integer.parseInt(value);
+        });
+
+        assertThat(orderPrice).isEqualTo(145000);
     }
 }

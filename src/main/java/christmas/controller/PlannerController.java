@@ -22,9 +22,9 @@ public class PlannerController {
         return plannerService.printOrderMenu();
     }
 
-    public void getOrderPrice() {
+    public String printOrderPrice() {
 
-        //할인 전 총 주문 금액
+        return plannerService.printOrderPrice();
     }
 
     public void getGift() {
