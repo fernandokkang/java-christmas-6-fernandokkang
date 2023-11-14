@@ -19,6 +19,12 @@ public class PlannerServiceImpl implements PlannerService {
     }
 
     @Override
+    public String printMessage() {
+
+        return reservationInfo.printMessage();
+    }
+
+    @Override
     public String printOrderMenu() {
 
         return reservationInfo.printOrderMenu();
@@ -34,5 +40,29 @@ public class PlannerServiceImpl implements PlannerService {
     public String printGift() {
 
         return reservationInfo.printGiftInfo();
+    }
+
+    @Override
+    public String printBenefit() {
+
+        return reservationInfo.printBenefit();
+    }
+
+    @Override
+    public String printBenefitPrice() {
+
+        return reservationInfo.printBenefitPrice();
+    }
+
+    @Override
+    public String printExpectedPayment() {
+
+        return reservationInfo.printExpectedPayment();
+    }
+
+    @Override
+    public String printEventBadge() {
+
+        return reservationInfo.printEventBadge();
     }
 }

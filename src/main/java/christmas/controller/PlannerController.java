@@ -17,6 +17,11 @@ public class PlannerController {
         plannerService.reservationMenu(orderMenu);
     }
 
+    public String printMessage() {
+
+        return plannerService.printMessage();
+    }
+
     public String printOrderMenu() {
 
         return plannerService.printOrderMenu();
@@ -30,5 +35,25 @@ public class PlannerController {
     public String printGift() {
 
         return plannerService.printGift();
+    }
+
+    public String printBenefit() {
+
+        return plannerService.printBenefit();
+    }
+
+    public String printBenefitPrice() {
+
+        return plannerService.printBenefitPrice();
+    }
+
+    public String printExpectedPayment() {
+
+        return plannerService.printExpectedPayment();
+    }
+
+    public String printEventBadge() {
+
+        return plannerService.printEventBadge();
     }
 }

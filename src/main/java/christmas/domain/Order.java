@@ -1,7 +1,9 @@
 package christmas.domain;
 
+import christmas.constant.Benefit;
 import christmas.constant.ErrorMessage;
 import christmas.constant.InfoMessage;
+import christmas.constant.Price;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -11,7 +13,7 @@ import java.util.stream.Collectors;
 
 public class Order {
     private final Map<String, String> orders;
-    private int orderPrice;
+    private int discountPrice;
     public Order(String orderMenu) {
 
         orders = makeOrders(orderMenu);
@@ -98,7 +100,6 @@ public class Order {
 
         return builder.toString();
     }
-
     public int calculateOrderPrice() {
 
         int sum = 0;
@@ -110,5 +111,67 @@ public class Order {
         }
 
         return sum;
+    }
+
+    public String discountInfo(String date) {
+
+        Map<String, Integer> options = calculateDiscountPrice(date);
+        calculateDiscountPrice(options);
+
+        StringBuilder builder = new StringBuilder();
+        for(String key : options.keySet()) {
+            builder.append(key).append(": ")
+                    .append(Price.df.format(-1*options.get(key))).append("원\n");
+        }
+
+        return builder.toString();
+    }
+    private Map<String, Integer> calculateDiscountPrice(String date) {
+
+        Map<String, Integer> options = Discount.getDiscountEventOptions(date);
+        int discountPrice = 0;
+
+        for (String key : options.keySet()) {
+            if(key.equals(Benefit.WEEKDAY_DISCOUNT)){
+                discountPrice = options.get(key) *
+                        calculateDiscountMenuCount(MenuGroup.DESSERT.getMenuType());
+                options.replace(Benefit.WEEKDAY_DISCOUNT,discountPrice);
+            }
+            if(key.equals(Benefit.WEEKEND_DISCOUNT)){
+                discountPrice = options.get(key) *
+                        calculateDiscountMenuCount(MenuGroup.MAIN_MENU.getMenuType());
+                options.replace(Benefit.WEEKEND_DISCOUNT,discountPrice);
+            }
+        }
+        return options;
+    }
+
+    private int calculateDiscountMenuCount(String menuType) {
+
+        int count = 0;
+
+        for (String key : orders.keySet()) {
+
+            Menu menu = Menu.findMenu(key);
+            MenuGroup menuGroup = MenuGroup.findByMenu(menu.getMenuName());
+
+            if(menuGroup.getMenuType().equals(menuType)) {
+
+                count += Integer.parseInt(orders.get(key));
+            }
+        }
+
+        return count;
+    }
+    public int getDiscountPrice() {
+        return discountPrice;
+    }
+
+    private void calculateDiscountPrice(Map<String, Integer> options) {
+
+        for(String key : options.keySet()) {
+
+            discountPrice += options.get(key);
+        }
     }
 }

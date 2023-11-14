@@ -1,7 +1,10 @@
 package christmas.constant;
 
+import java.text.DecimalFormat;
+
 public class Price {
 
+    public static DecimalFormat df = new DecimalFormat("###,###");
     public static int WEEKDAY_DESSERT_DISCOUNT_PRICE = 2023;
     public static int WEEKEND_MAIN_MENU_DISCOUNT_PRICE = 2023;
     public static int SPECIAL_DISCOUNT_PRICE = 1000;

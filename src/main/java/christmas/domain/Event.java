@@ -1,14 +1,13 @@
 package christmas.domain;
 
+import christmas.constant.Benefit;
+import christmas.constant.Price;
+
 public class Event {
-
-    private final int MINIMUM_EVENT_PARTICIPATION_PRICE = 120000;
-
-    private Discount discount;
     private Gift gift;
     private Badge badge;
 
-    public Event(String date, int orderPrice) {
+    public Event(int orderPrice) {
 
        checkReceiveGift(orderPrice);
     }
@@ -18,21 +17,37 @@ public class Event {
         gift = Gift.giveGift(orderPrice);
     }
 
-    public String makeGiftInfo() {
+    public void applyEvent(int benefitPrice) {
+
+        badge = Badge.giveBadge(benefitPrice);
+    }
+
+    public String findGiftName() {
+
+        return gift.getGiftName();
+    }
+
+    public String getGiftPriceInfo() {
+
+        Menu menu = Menu.findMenu(gift.getGiftName());
 
         StringBuilder builder = new StringBuilder();
-        builder.append("<증정 메뉴>\n");
-        if(gift.getGiftName().equals("없음")){
-            builder.append(gift.getGiftName()).append("\n");
-            return builder.toString();
-        }
-        builder.append(gift.getGiftName()).append(" 1개\n");
+        builder.append(Benefit.GIFT_EVENT).append(": ")
+                .append(Price.df.format(-1*menu.getPrice()))
+                .append("원\n");
 
         return builder.toString();
     }
 
-    public String createAppliedEventHistory() {
+    public int getGiftPrice() {
 
-        return null;
+        Menu menu = Menu.findMenu(gift.getGiftName());
+
+        return menu.getPrice();
+    }
+
+    public String getBadgeType() {
+
+        return badge.getType();
     }
 }

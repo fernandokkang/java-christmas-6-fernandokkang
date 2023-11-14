@@ -5,15 +5,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import camp.nextstep.edu.missionutils.test.NsTest;
+import christmas.constant.Benefit;
 import christmas.constant.ErrorMessage;
 import christmas.constant.InfoMessage;
-import christmas.domain.Menu;
-import christmas.domain.MenuGroup;
-import christmas.domain.Order;
-import christmas.domain.ReservationInfo;
+import christmas.constant.Price;
+import christmas.domain.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.text.DecimalFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -39,6 +39,7 @@ public class OrderTest {
     void duplicateOrderTest() {
 
         String orderMenu = "타파스-1,제로콜라-1,타파스-2";
+        String date = "10";
 
         assertThatThrownBy(() -> new Order(orderMenu))
                 .isInstanceOf(IllegalArgumentException.class)
@@ -66,6 +67,7 @@ public class OrderTest {
     void 메뉴에_숫자_아닌_입력() {
 
         String orderMenu = "타파스-1,제로콜라-1a";
+        String date = "10";
 
         Map<String, String> orderMenus = Arrays.stream(orderMenu.split(","))
                 .map(a -> a.split("-", 2))
@@ -81,6 +83,7 @@ public class OrderTest {
     void 총_주문_메뉴_개수_20개_이상() {
 
         String orderMenu = "타파스-1,제로콜라-21";
+        String date = "10";
 
         Map<String, String> orderMenus = Arrays.stream(orderMenu.split(","))
                 .map(a -> a.split("-", 2))
@@ -88,7 +91,7 @@ public class OrderTest {
 
         assertThatThrownBy(() -> new Order(orderMenu))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage(InfoMessage.MORE_THAN_TWENTY_MENUS_CAN_NOT_ORDER.getInfoMessage());
+                .hasMessage(ErrorMessage.MENU_COUNT_RANGE_ERROR_MESSAGE.name());
     }
 
     @Test
@@ -96,6 +99,7 @@ public class OrderTest {
     void 총_주문_메뉴_개수_위반_0개() {
 
         String orderMenu = "타파스-0";
+        String date = "10";
 
         Map<String, String> orderMenus = Arrays.stream(orderMenu.split(","))
                 .map(a -> a.split("-", 2))
@@ -194,4 +198,88 @@ public class OrderTest {
 
         assertThat(orderPrice).isEqualTo(145000);
     }
+    @Test
+    @DisplayName("할인 메뉴 갯수 출력")
+    void calculateDiscountMenuCountTest() {
+
+        String orderMenu = "티본스테이크-1,바비큐립-1,초코케이크-2,제로콜라-1";
+
+        Map<String, String> orders = Arrays.stream(orderMenu.split(","))
+                .map(a -> a.split("-", 2))
+                .collect(Collectors.toMap(b -> b[0], b -> b[1]));
+
+        int count = 0;
+
+        for (String key : orders.keySet()) {
+
+            Menu menu = Menu.findMenu(key);
+            MenuGroup menuGroup = MenuGroup.findByMenu(menu.getMenuName());
+            if(menuGroup.equals(MenuGroup.MAIN_MENU)) {
+
+                count += Integer.parseInt(orders.get(key));
+            }
+        }
+       assertThat(count).isEqualTo(2);
+    }
+
+    @Test
+    @DisplayName("할인 금액 계산 테스트")
+    void calculateDiscountPriceTest() {
+
+        String date = "10";
+
+        Map<String, Integer> options =
+               Discount.getDiscountEventOptions(date);
+
+        int discountPrice = 0;
+
+        for (String key : options.keySet()) {
+            if(key.equals(Benefit.WEEKDAY_DISCOUNT)){
+                discountPrice = options.get(key) * 2;//평일 주말인지 확인하기 위한 임의의 값
+                options.replace(Benefit.WEEKDAY_DISCOUNT,discountPrice);
+            }
+
+            if(key.equals(Benefit.WEEKEND_DISCOUNT)){
+                discountPrice = options.get(key) * 3;
+                options.replace(Benefit.WEEKEND_DISCOUNT,discountPrice);
+            }
+        }
+
+        assertThat(options).containsEntry("크리스마스 디데이 할인",1900)
+                .containsEntry("평일 할인",Price.WEEKDAY_DESSERT_DISCOUNT_PRICE * 2)
+                .containsEntry("특별 할인",Price.SPECIAL_DISCOUNT_PRICE);
+    }
+
+    @Test
+    @DisplayName("할인 내역 출력")
+    void discountInfoTest() {
+
+        String date = "3";
+        Map<String, Integer> options =
+                Discount.getDiscountEventOptions(date);
+
+        int discountPrice = 0;
+
+        for (String key : options.keySet()) {
+            if(key.equals(Benefit.WEEKDAY_DISCOUNT)){
+                discountPrice = options.get(key) * 2;//평일 주말인지 확인하기 위한 임의의 값
+                options.replace(Benefit.WEEKDAY_DISCOUNT,discountPrice);
+            }
+
+            if(key.equals(Benefit.WEEKEND_DISCOUNT)){
+                discountPrice = options.get(key) * 3;
+                options.replace(Benefit.WEEKEND_DISCOUNT,discountPrice);
+            }
+        }
+
+        StringBuilder builder = new StringBuilder();
+        builder.append("<혜택 내역>\n");
+        for(String key : options.keySet()) {
+            builder.append(key).append(": ")
+                    .append(Price.df.format(-1*options.get(key))).append("원\n");
+        }
+
+        System.out.println(builder);
+    }
+
 }
