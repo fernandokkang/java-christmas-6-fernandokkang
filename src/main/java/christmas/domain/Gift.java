@@ -1,5 +1,7 @@
 package christmas.domain;
 
+import christmas.constant.Price;
+
 public enum Gift {
 
     EMPTY("없음"),
@@ -14,7 +16,7 @@ public enum Gift {
 
     public static Gift giveGift(int orderPrice) {
 
-        if(orderPrice >= 120000) {
+        if(orderPrice >= Price.MINIMUM_PRICE_RECEIVE_GIFT) {
             return GIFT;
         }
 
