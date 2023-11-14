@@ -14,7 +14,7 @@ public class PlannerServiceTest {
 
         String orderMenu = "티본스테이크-2,레드와인-2";
 
-        reservationInfo.submitOrderWithEvent(orderMenu);
+        reservationInfo.submitOrder(orderMenu);
 
         System.out.println(reservationInfo.printOrderMenu());
     }

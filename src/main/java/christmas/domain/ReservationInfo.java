@@ -8,6 +8,8 @@ import christmas.constant.Price;
 import java.util.Map;
 
 public class ReservationInfo {
+
+    private static final String LINE_SEPARATOR = System.lineSeparator();
     private String date;
     private Order order;
     private Event event;
@@ -19,10 +21,9 @@ public class ReservationInfo {
         isCorrectDateRange(parseDate);
     }
 
-    public void submitOrderWithEvent(String orderMenu) {
+    public void submitOrder(String orderMenu) {
 
         order = new Order(orderMenu);
-        applyEvent();
     }
 
     private int isInteger(String date) {
@@ -45,19 +46,17 @@ public class ReservationInfo {
         }
     }
 
-    private void applyEvent () {
+    public void applyEvent () {
 
-        int orderPrice = order.calculateOrderPrice();
-        if(orderPrice >= Price.MINIMUM_PRICE_APPLY_EVENT) {
-            event = new Event(orderPrice);
-        }
+        event = new Event(order.calculateOrderPrice());
     }
 
     public String printMessage() {
 
         StringBuilder builder = new StringBuilder();
         builder.append("12월 ").append(date)
-                .append("일에 우테코 식당에서 받을 이벤트 혜택 미리 보기!\n");
+                .append("일에 우테코 식당에서 받을 이벤트 혜택 미리 보기!")
+                .append(LINE_SEPARATOR);
 
         return builder.toString();
     }
@@ -70,23 +69,26 @@ public class ReservationInfo {
     public String printOrderPrice() {
 
         StringBuilder builder = new StringBuilder();
-        builder.append("<할인 전 총주문 금액>\n")
-                .append(Price.df.format(order.calculateOrderPrice())).append("원\n");
+        builder.append("<할인 전 총주문 금액>")
+                .append(LINE_SEPARATOR)
+                .append(Price.df.format(order.calculateOrderPrice())).append("원")
+                .append(LINE_SEPARATOR);
 
         return builder.toString();
     }
 
     public String printGiftInfo() {
 
+        applyEvent();
         String giftName = event.findGiftName();
 
         StringBuilder builder = new StringBuilder();
-        builder.append("<증정 메뉴>\n");
+        builder.append("<증정 메뉴>").append(LINE_SEPARATOR);
         if(giftName.equals("없음")){
-            builder.append(giftName).append("\n");
+            builder.append(giftName).append(LINE_SEPARATOR);
             return builder.toString();
         }
-        builder.append(giftName).append(Benefit.NUMBER_OF_GIFT).append(" \n");
+        builder.append(giftName).append(Benefit.NUMBER_OF_GIFT).append(LINE_SEPARATOR);
 
         return builder.toString();
     }
@@ -94,7 +96,12 @@ public class ReservationInfo {
     public String printBenefit() {
 
         StringBuilder builder = new StringBuilder();
-        builder.append("<혜택 내역>\n");
+        builder.append("<혜택 내역>").append(LINE_SEPARATOR);
+        if(order.discountInfo(date).equals("")
+                && event.getGiftPriceInfo().equals("")){
+            builder.append("없음").append(LINE_SEPARATOR);
+            return builder.toString();
+        }
         builder.append(order.discountInfo(date));
         builder.append(event.getGiftPriceInfo());
 
@@ -108,9 +115,9 @@ public class ReservationInfo {
         int benefitPrice = order.getDiscountPrice() +
                 event.getGiftPrice();
 
-        builder.append("<총혜택 금액>\n")
+        builder.append("<총혜택 금액>").append(LINE_SEPARATOR)
                 .append(Price.df.format(-1*benefitPrice))
-                .append("원\n");
+                .append("원").append(LINE_SEPARATOR);
 
         return builder.toString();
     }
@@ -122,9 +129,9 @@ public class ReservationInfo {
         int expectedPayment = order.calculateOrderPrice() -
                 order.getDiscountPrice();
 
-        builder.append("<할인 후 예상 결제 금액>\n")
+        builder.append("<할인 후 예상 결제 금액>").append(LINE_SEPARATOR)
                 .append(Price.df.format(expectedPayment))
-                .append("원\n");
+                .append("원").append(LINE_SEPARATOR);
 
         return builder.toString();
     }
@@ -138,9 +145,9 @@ public class ReservationInfo {
 
         event.applyEvent(benefitPrice);
 
-        builder.append("<12월 이벤트 배지>\n")
+        builder.append("<12월 이벤트 배지>").append(LINE_SEPARATOR)
                 .append(event.getBadgeType())
-                .append("\n");
+                .append(LINE_SEPARATOR);
 
         return builder.toString();
     }

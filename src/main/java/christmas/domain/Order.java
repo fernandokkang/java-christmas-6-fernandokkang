@@ -116,12 +116,13 @@ public class Order {
     public String discountInfo(String date) {
 
         Map<String, Integer> options = calculateDiscountPrice(date);
-        calculateDiscountPrice(options);
 
         StringBuilder builder = new StringBuilder();
         for(String key : options.keySet()) {
-            builder.append(key).append(": ")
-                    .append(Price.df.format(-1*options.get(key))).append("원\n");
+            if(options.get(key) != 0) {
+                builder.append(key).append(": ")
+                        .append(Price.df.format(-1 * options.get(key))).append("원\n");
+            }
         }
 
         return builder.toString();
@@ -143,6 +144,9 @@ public class Order {
                 options.replace(Benefit.WEEKEND_DISCOUNT,discountPrice);
             }
         }
+
+        saveDiscountPrice(options);
+
         return options;
     }
 
@@ -167,7 +171,7 @@ public class Order {
         return discountPrice;
     }
 
-    private void calculateDiscountPrice(Map<String, Integer> options) {
+    private void saveDiscountPrice(Map<String, Integer> options) {
 
         for(String key : options.keySet()) {
 

@@ -15,7 +15,7 @@ public class PlannerServiceImpl implements PlannerService {
     @Override
     public void reservationMenu(String orderMenu) {
 
-        reservationInfo.submitOrderWithEvent(orderMenu);
+        reservationInfo.submitOrder(orderMenu);
     }
 
     @Override

@@ -9,7 +9,7 @@ public class Event {
 
     public Event(int orderPrice) {
 
-       checkReceiveGift(orderPrice);
+        checkReceiveGift(orderPrice);
     }
 
     private void checkReceiveGift(int orderPrice) {
@@ -32,10 +32,12 @@ public class Event {
         Menu menu = Menu.findMenu(gift.getGiftName());
 
         StringBuilder builder = new StringBuilder();
-        builder.append(Benefit.GIFT_EVENT).append(": ")
-                .append(Price.df.format(-1*menu.getPrice()))
-                .append("원\n");
 
+        if (!menu.name().equals("EMPTY")) {
+            builder.append(Benefit.GIFT_EVENT).append(": ")
+                    .append(Price.df.format(-1 * menu.getPrice()))
+                    .append("원\n");
+        }
         return builder.toString();
     }
 
