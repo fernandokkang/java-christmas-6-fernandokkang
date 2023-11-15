@@ -55,6 +55,14 @@ class ApplicationTest extends NsTest {
     }
 
     @Test
+    void 메뉴_입력_형식_공백_있는_경우_예외_테스트() {
+        assertSimpleTest(() -> {
+            runException("3","타파스-1, 제로콜라-2");
+            assertThat(output()).contains("[ERROR]");
+        });
+    }
+
+    @Test
     void 혜택_내역_없음_출력() {
         assertSimpleTest(() -> {
             run("26", "타파스-1,제로콜라-1");

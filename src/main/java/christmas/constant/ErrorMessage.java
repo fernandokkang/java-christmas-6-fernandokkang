@@ -7,7 +7,7 @@ public enum ErrorMessage {
     NOT_EXIST_MENU_ERROR_MESSAGE ("[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요."),
     MENU_COUNT_NOT_NUMBER_ERROR_MESSAGE ("[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요."),
     DUPLICATE_MENU_ERROR_MESSAGE ("[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요."),
-    MENU_FORMAT_ERROR_MESSAGE ("[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요. 메뉴 포맷 위반"),
+    MENU_FORMAT_ERROR_MESSAGE ("[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요."),
     MENU_COUNT_RANGE_ERROR_MESSAGE ("[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요."),
     ONLY_DRINK_CAN_NOT_ORDER("[ERROR] 음료만 주문 시, 주문할 수 없습니다.");
 

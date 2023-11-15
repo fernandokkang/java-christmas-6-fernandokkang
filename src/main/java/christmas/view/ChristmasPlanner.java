@@ -27,7 +27,6 @@ public class ChristmasPlanner {
         } catch (Exception e) {
 
             String errorType = e.getMessage();
-
             System.out.println(ErrorMessage.valueOf(errorType).getErrorMessage());
         }
     }
