@@ -46,11 +46,6 @@ public class ReservationInfo {
         }
     }
 
-    public void applyEvent () {
-
-        event = new Event(order.calculateOrderPrice());
-    }
-
     public String printMessage() {
 
         StringBuilder builder = new StringBuilder();
@@ -79,7 +74,7 @@ public class ReservationInfo {
 
     public String printGiftInfo() {
 
-        applyEvent();
+        event = new Event(order.calculateOrderPrice());
         String giftName = event.findGiftName();
 
         StringBuilder builder = new StringBuilder();
@@ -97,12 +92,16 @@ public class ReservationInfo {
 
         StringBuilder builder = new StringBuilder();
         builder.append("<혜택 내역>").append(LINE_SEPARATOR);
-        if(order.discountInfo(date).equals("")
-                && event.getGiftPriceInfo().equals("")){
+
+        String discountInfo = order.discountInfo(date);
+
+        if((discountInfo.equals("")
+                && event.getGiftPriceInfo().equals(""))
+                || order.calculateOrderPrice() < Price.MINIMUM_PRICE_APPLY_EVENT){
             builder.append("없음").append(LINE_SEPARATOR);
             return builder.toString();
         }
-        builder.append(order.discountInfo(date));
+        builder.append(discountInfo);
         builder.append(event.getGiftPriceInfo());
 
         return builder.toString();

@@ -2,33 +2,43 @@ package christmas.domain;
 
 import christmas.constant.Benefit;
 import christmas.constant.ErrorMessage;
-import christmas.constant.InfoMessage;
 import christmas.constant.Price;
 
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class Order {
+
     private final Map<String, String> orders;
     private int discountPrice;
+
     public Order(String orderMenu) {
 
+        validateOrderMenuFormat(orderMenu);
         orders = makeOrders(orderMenu);
         validate(orders);
         calculateMenuCount(orders);
     }
 
+    private void validateOrderMenuFormat(String orderMenu) {
+
+        String regex = "([가-힣]+-\\d+,)*[가-힣]+-\\d+";
+        if(!orderMenu.matches(regex)) {
+
+            throw new IllegalArgumentException(ErrorMessage.MENU_FORMAT_ERROR_MESSAGE.name());
+        }
+    }
     private Map<String, String> makeOrders(String orderMenu) {
 
         try {
             return Arrays.stream(orderMenu.split(","))
                     .map(a -> a.split("-", 2))
                     .collect(Collectors.toMap(b -> b[0], b -> b[1]));
-
-        } catch (Exception e) {
+        }catch (Exception e){
 
             throw new IllegalArgumentException(ErrorMessage.DUPLICATE_MENU_ERROR_MESSAGE.name());
         }
@@ -36,10 +46,10 @@ public class Order {
 
     private void validate(Map<String, String> orders) {
 
-        if(!isExistMenu(orders)) {
+        if (!isExistMenu(orders)) {
             throw new IllegalArgumentException(ErrorMessage.NOT_EXIST_MENU_ERROR_MESSAGE.name());
         }
-        if(hasOnlyDrink(orders)) {
+        if (hasOnlyDrink(orders)) {
             throw new IllegalArgumentException(ErrorMessage.ONLY_DRINK_CAN_NOT_ORDER.name());
         }
     }
@@ -48,7 +58,7 @@ public class Order {
 
         for (String key : orders.keySet()) {
             Menu menu = Menu.findMenu(key);
-            if(Menu.EMPTY.equals(menu)){
+            if (Menu.EMPTY.equals(menu)) {
                 return false;
             }
         }
@@ -62,7 +72,7 @@ public class Order {
             Menu menu = Menu.findMenu(key);
             MenuGroup menuGroup = MenuGroup.findByMenu(menu.getMenuName());
 
-            if(!menuGroup.name().equals("DRINK")) {
+            if (!menuGroup.name().equals("DRINK")) {
 
                 return false;
             }
@@ -80,7 +90,7 @@ public class Order {
             throw new IllegalArgumentException(ErrorMessage.MENU_COUNT_RANGE_ERROR_MESSAGE.name());
         }
 
-        if(menuCount > 20) {
+        if (menuCount > 20) {
 
             throw new IllegalArgumentException(ErrorMessage.MENU_COUNT_RANGE_ERROR_MESSAGE.name());
         }
@@ -91,20 +101,21 @@ public class Order {
         StringBuilder builder = new StringBuilder();
         builder.append("<주문 메뉴>\n");
 
-        if(orders == null) return "주문이 존재하지 않습니다.";
+        if (orders == null) return "주문이 존재하지 않습니다.";
 
         orders.forEach((key, value) -> {
             Menu menu = Menu.findMenu(key);
-            builder.append(menu.getMenuName()+" ").append(value+"개\n");
+            builder.append(menu.getMenuName() + " ").append(value + "개\n");
         });
 
         return builder.toString();
     }
+
     public int calculateOrderPrice() {
 
         int sum = 0;
 
-        for(String key : orders.keySet()) {
+        for (String key : orders.keySet()) {
 
             Menu menu = Menu.findMenu(key);
             sum += menu.getPrice() * Integer.parseInt(orders.get(key));
@@ -118,8 +129,8 @@ public class Order {
         Map<String, Integer> options = calculateDiscountPrice(date);
 
         StringBuilder builder = new StringBuilder();
-        for(String key : options.keySet()) {
-            if(options.get(key) != 0) {
+        for (String key : options.keySet()) {
+            if (options.get(key) != 0) {
                 builder.append(key).append(": ")
                         .append(Price.df.format(-1 * options.get(key))).append("원\n");
             }
@@ -127,21 +138,22 @@ public class Order {
 
         return builder.toString();
     }
+
     private Map<String, Integer> calculateDiscountPrice(String date) {
 
         Map<String, Integer> options = Discount.getDiscountEventOptions(date);
         int discountPrice = 0;
 
         for (String key : options.keySet()) {
-            if(key.equals(Benefit.WEEKDAY_DISCOUNT)){
+            if (key.equals(Benefit.WEEKDAY_DISCOUNT)) {
                 discountPrice = options.get(key) *
                         calculateDiscountMenuCount(MenuGroup.DESSERT.getMenuType());
-                options.replace(Benefit.WEEKDAY_DISCOUNT,discountPrice);
+                options.replace(Benefit.WEEKDAY_DISCOUNT, discountPrice);
             }
-            if(key.equals(Benefit.WEEKEND_DISCOUNT)){
+            if (key.equals(Benefit.WEEKEND_DISCOUNT)) {
                 discountPrice = options.get(key) *
                         calculateDiscountMenuCount(MenuGroup.MAIN_MENU.getMenuType());
-                options.replace(Benefit.WEEKEND_DISCOUNT,discountPrice);
+                options.replace(Benefit.WEEKEND_DISCOUNT, discountPrice);
             }
         }
 
@@ -159,7 +171,7 @@ public class Order {
             Menu menu = Menu.findMenu(key);
             MenuGroup menuGroup = MenuGroup.findByMenu(menu.getMenuName());
 
-            if(menuGroup.getMenuType().equals(menuType)) {
+            if (menuGroup.getMenuType().equals(menuType)) {
 
                 count += Integer.parseInt(orders.get(key));
             }
@@ -167,15 +179,29 @@ public class Order {
 
         return count;
     }
+
     public int getDiscountPrice() {
         return discountPrice;
     }
 
     private void saveDiscountPrice(Map<String, Integer> options) {
 
-        for(String key : options.keySet()) {
+        for (String key : options.keySet()) {
 
             discountPrice += options.get(key);
         }
+
+        if(!isExceedMinimumOrderPrice()) {
+            discountPrice = 0;
+        }
+    }
+
+    private boolean isExceedMinimumOrderPrice() {
+
+        if(calculateOrderPrice() > Price.MINIMUM_PRICE_APPLY_EVENT) {
+            return true;
+        }
+
+        return false;
     }
 }
