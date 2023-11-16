@@ -10,6 +10,7 @@ public enum Badge {
     SANTA("산타");
 
     private String type;
+    private static final String LINE_SEPARATOR = System.lineSeparator();
 
     private Badge(String type) {
 
@@ -32,7 +33,17 @@ public enum Badge {
 
         return EMPTY;
     }
-    public String getType() {
+    private String getType() {
         return type;
+    }
+
+    public String getBadgeTypeInfo() {
+
+        StringBuilder builder = new StringBuilder();
+
+        builder.append("<12월 이벤트 배지>").append(LINE_SEPARATOR)
+                .append(getType()).append(LINE_SEPARATOR);
+
+        return builder.toString();
     }
 }

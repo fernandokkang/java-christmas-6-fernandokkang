@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Test;
 
 public class BadgeTest {
 
+    private static final String LINE_SEPARATOR = System.lineSeparator();
+
     @DisplayName("뱃지 출력 확인 산타")
     @Test
     void printBadgeTest_SANTA() {
@@ -16,7 +18,10 @@ public class BadgeTest {
 
         Badge badge = Badge.giveBadge(benefitPrice);
 
-        assertThat(badge.getType()).isEqualTo("산타");
+        assertThat(badge.getBadgeTypeInfo())
+                .contains("<12월 이벤트 배지>")
+                .contains(LINE_SEPARATOR)
+                .contains("산타");
     }
 
     @DisplayName("뱃지 출력 확인 트리")
@@ -27,7 +32,10 @@ public class BadgeTest {
 
         Badge badge = Badge.giveBadge(benefitPrice);
 
-        assertThat(badge.getType()).isEqualTo("트리");
+        assertThat(badge.getBadgeTypeInfo())
+                .contains("<12월 이벤트 배지>")
+                .contains(LINE_SEPARATOR)
+                .contains("트리");
     }
 
     @DisplayName("뱃지 출력 확인 스타")
@@ -38,7 +46,10 @@ public class BadgeTest {
 
         Badge badge = Badge.giveBadge(benefitPrice);
 
-        assertThat(badge.getType()).isEqualTo("별");
+        assertThat(badge.getBadgeTypeInfo())
+                .contains("<12월 이벤트 배지>")
+                .contains(LINE_SEPARATOR)
+                .contains("별");
     }
 
     @DisplayName("뱃지 출력 확인 없음")
@@ -49,6 +60,9 @@ public class BadgeTest {
 
         Badge badge = Badge.giveBadge(benefitPrice);
 
-        assertThat(badge.getType()).isEqualTo("없음");
+        assertThat(badge.getBadgeTypeInfo())
+                .contains("<12월 이벤트 배지>")
+                .contains(LINE_SEPARATOR)
+                .contains("없음");
     }
 }

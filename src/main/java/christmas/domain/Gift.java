@@ -29,7 +29,7 @@ public enum Gift {
         return giftName;
     }
 
-    private int getGiftPrice() {
+    public int getGiftPrice() {
 
         Menu menu = Menu.findMenu(getGiftName());
 
