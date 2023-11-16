@@ -1,3 +1,4 @@
+/*
 package christmas.domain;
 
 import christmas.constant.Benefit;
@@ -53,3 +54,4 @@ public class Event {
         return badge.getType();
     }
 }
+*/

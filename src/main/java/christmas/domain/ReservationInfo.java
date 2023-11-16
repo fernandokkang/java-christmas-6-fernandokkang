@@ -12,7 +12,8 @@ public class ReservationInfo {
     private static final String LINE_SEPARATOR = System.lineSeparator();
     private String date;
     private Order order;
-    private Event event;
+    //private Event event;
+    private Gift gift;
 
     public void makeReservation(String date) {
 
@@ -74,16 +75,10 @@ public class ReservationInfo {
 
     public String printGiftInfo() {
 
-        event = new Event(order.calculateOrderPrice());
-        String giftName = event.findGiftName();
+        gift = Gift.giveGift(order.calculateOrderPrice());
 
         StringBuilder builder = new StringBuilder();
-        builder.append("<증정 메뉴>").append(LINE_SEPARATOR);
-        if(giftName.equals("없음")){
-            builder.append(giftName).append(LINE_SEPARATOR);
-            return builder.toString();
-        }
-        builder.append(giftName).append(Benefit.NUMBER_OF_GIFT).append(LINE_SEPARATOR);
+        builder.append(gift.getGiftInfo());
 
         return builder.toString();
     }
@@ -96,13 +91,13 @@ public class ReservationInfo {
         String discountInfo = order.discountInfo(date);
 
         if((discountInfo.equals("")
-                && event.getGiftPriceInfo().equals(""))
+                && gift.getGiftPriceInfo().equals(""))
                 || order.calculateOrderPrice() < Price.MINIMUM_PRICE_APPLY_EVENT){
             builder.append("없음").append(LINE_SEPARATOR);
             return builder.toString();
         }
         builder.append(discountInfo);
-        builder.append(event.getGiftPriceInfo());
+        builder.append(gift.getGiftPriceInfo());
 
         return builder.toString();
     }
@@ -111,12 +106,12 @@ public class ReservationInfo {
 
         StringBuilder builder = new StringBuilder();
 
-        int benefitPrice = order.getDiscountPrice() +
+        /*int benefitPrice = order.getDiscountPrice() +
                 event.getGiftPrice();
 
         builder.append("<총혜택 금액>").append(LINE_SEPARATOR)
                 .append(Price.df.format(-1*benefitPrice))
-                .append("원").append(LINE_SEPARATOR);
+                .append("원").append(LINE_SEPARATOR);*/
 
         return builder.toString();
     }
@@ -139,14 +134,14 @@ public class ReservationInfo {
 
         StringBuilder builder = new StringBuilder();
 
-        int benefitPrice = order.getDiscountPrice() +
+        /*int benefitPrice = order.getDiscountPrice() +
                 event.getGiftPrice();
 
         event.applyEvent(benefitPrice);
 
         builder.append("<12월 이벤트 배지>").append(LINE_SEPARATOR)
                 .append(event.getBadgeType())
-                .append(LINE_SEPARATOR);
+                .append(LINE_SEPARATOR);*/
 
         return builder.toString();
     }

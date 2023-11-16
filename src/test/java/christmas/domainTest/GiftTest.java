@@ -9,25 +9,58 @@ import org.junit.jupiter.api.Test;
 
 public class GiftTest {
 
-    @DisplayName("증정품 출력 테스트 120000원 이상")
+    private static final String LINE_SEPARATOR = System.lineSeparator();
+
+    @DisplayName("증정품 가격 출력 테스트 120000원 이상")
     @Test
-    void printGiftTest() {
+    void printGiftPriceInfoTest() {
 
         int orderPrice = 120000;
 
         Gift gift = Gift.giveGift(orderPrice);
 
-        assertThat(gift.getGiftName()).isEqualTo("샴페인");
+        assertThat(gift.getGiftPriceInfo())
+                .contains("증정 이벤트")
+                .contains("-25,000원");
+    }
+
+    @DisplayName("증정품 가격 출력 테스트 120000원 미만")
+    @Test
+    void printGiftPriceInfoTest_lessThan120000() {
+
+        int orderPrice = 110000;
+
+        Gift gift = Gift.giveGift(orderPrice);
+
+        assertThat(gift.getGiftPriceInfo())
+                .contains("");
+    }
+
+    @DisplayName("증정품 출력 테스트 120000원 이상")
+    @Test
+    void printGiftInfoTest() {
+
+        int orderPrice = 120000;
+
+        Gift gift = Gift.giveGift(orderPrice);
+
+        assertThat(gift.getGiftInfo())
+                .contains("<증정 메뉴>")
+                .contains(LINE_SEPARATOR)
+                .contains("샴페인 1개");
     }
 
     @DisplayName("증정품 출력 테스트 120000원 미만")
     @Test
-    void printGiftTest2() {
+    void printGiftInfoTest_lessThan120000() {
 
-        int orderPrice = 100000;
+        int orderPrice = 110000;
 
         Gift gift = Gift.giveGift(orderPrice);
 
-        assertThat(gift.getGiftName()).isEqualTo("없음");
+        assertThat(gift.getGiftInfo())
+                .contains("<증정 메뉴>")
+                .contains(LINE_SEPARATOR)
+                .contains("없음");
     }
 }
