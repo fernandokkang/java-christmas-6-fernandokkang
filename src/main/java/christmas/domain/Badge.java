@@ -41,8 +41,7 @@ public enum Badge {
 
         StringBuilder builder = new StringBuilder();
 
-        builder.append("<12월 이벤트 배지>").append(LINE_SEPARATOR)
-                .append(getType()).append(LINE_SEPARATOR);
+        builder.append(getType()).append(LINE_SEPARATOR);
 
         return builder.toString();
     }

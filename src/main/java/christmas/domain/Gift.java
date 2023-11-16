@@ -9,7 +9,6 @@ public enum Gift {
     GIFT(Menu.CHAMPAGNE.getMenuName());
 
     private String giftName;
-    private static final String LINE_SEPARATOR = System.lineSeparator();
 
     private Gift(String giftName) {
 
@@ -41,17 +40,13 @@ public enum Gift {
         StringBuilder builder = new StringBuilder();
         Menu menu = Menu.findMenu(getGiftName());
 
-        builder.append("<증정 메뉴>").append(LINE_SEPARATOR);
-
         if(menu.name().equals("EMPTY")){
-            builder.append("없음")
-                    .append(LINE_SEPARATOR);
+            builder.append("없음");
             return builder.toString();
         }
 
         builder.append(menu.getMenuName())
-                .append(" 1개")
-                .append(LINE_SEPARATOR);
+                .append(" 1개");
 
         return builder.toString();
     }

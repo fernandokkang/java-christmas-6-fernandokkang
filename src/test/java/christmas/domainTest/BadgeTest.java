@@ -19,8 +19,6 @@ public class BadgeTest {
         Badge badge = Badge.giveBadge(benefitPrice);
 
         assertThat(badge.getBadgeTypeInfo())
-                .contains("<12월 이벤트 배지>")
-                .contains(LINE_SEPARATOR)
                 .contains("산타");
     }
 
@@ -33,8 +31,6 @@ public class BadgeTest {
         Badge badge = Badge.giveBadge(benefitPrice);
 
         assertThat(badge.getBadgeTypeInfo())
-                .contains("<12월 이벤트 배지>")
-                .contains(LINE_SEPARATOR)
                 .contains("트리");
     }
 
@@ -47,8 +43,6 @@ public class BadgeTest {
         Badge badge = Badge.giveBadge(benefitPrice);
 
         assertThat(badge.getBadgeTypeInfo())
-                .contains("<12월 이벤트 배지>")
-                .contains(LINE_SEPARATOR)
                 .contains("별");
     }
 
@@ -61,8 +55,6 @@ public class BadgeTest {
         Badge badge = Badge.giveBadge(benefitPrice);
 
         assertThat(badge.getBadgeTypeInfo())
-                .contains("<12월 이벤트 배지>")
-                .contains(LINE_SEPARATOR)
                 .contains("없음");
     }
 }

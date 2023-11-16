@@ -79,7 +79,8 @@ public class ReservationInfo {
         gift = Gift.giveGift(order.calculateOrderPrice());
 
         StringBuilder builder = new StringBuilder();
-        builder.append(gift.getGiftInfo());
+        builder.append("<증정 메뉴>").append(LINE_SEPARATOR);
+        builder.append(gift.getGiftInfo()).append(LINE_SEPARATOR);
 
         return builder.toString();
     }
@@ -133,13 +134,13 @@ public class ReservationInfo {
 
     public String printEventBadge() {
 
-        StringBuilder builder = new StringBuilder();
-
         int benefitPrice = order.getDiscountPrice() +
                 gift.getGiftPrice();
-
         badge = Badge.giveBadge(benefitPrice);
-        builder.append(badge.getBadgeTypeInfo());
+
+        StringBuilder builder = new StringBuilder();
+        builder.append("<12월 이벤트 배지>").append(LINE_SEPARATOR)
+                .append(badge.getBadgeTypeInfo());
 
         return builder.toString();
     }

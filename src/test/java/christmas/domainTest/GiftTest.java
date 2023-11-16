@@ -45,8 +45,6 @@ public class GiftTest {
         Gift gift = Gift.giveGift(orderPrice);
 
         assertThat(gift.getGiftInfo())
-                .contains("<증정 메뉴>")
-                .contains(LINE_SEPARATOR)
                 .contains("샴페인 1개");
     }
 
@@ -59,8 +57,6 @@ public class GiftTest {
         Gift gift = Gift.giveGift(orderPrice);
 
         assertThat(gift.getGiftInfo())
-                .contains("<증정 메뉴>")
-                .contains(LINE_SEPARATOR)
                 .contains("없음");
     }
 }
