@@ -5,10 +5,7 @@ import christmas.constant.ErrorMessage;
 import christmas.constant.Price;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class Order {
@@ -96,12 +93,9 @@ public class Order {
         }
     }
 
-    public String createOrderMenu() {
+    public String createOrderMenuInfo() {
 
         StringBuilder builder = new StringBuilder();
-        builder.append("<주문 메뉴>\n");
-
-        if (orders == null) return "주문이 존재하지 않습니다.";
 
         orders.forEach((key, value) -> {
             Menu menu = Menu.findMenu(key);

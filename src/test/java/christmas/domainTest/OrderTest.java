@@ -1,6 +1,5 @@
 package christmas.domainTest;
 
-import static camp.nextstep.edu.missionutils.test.Assertions.assertSimpleTest;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -11,8 +10,6 @@ import christmas.domain.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class OrderTest extends NsTest{
@@ -126,7 +123,7 @@ public class OrderTest extends NsTest{
         String orderMenu = "해산물파스타-2,레드와인-1,초코케이크-1";
         Order order = new Order(orderMenu);
 
-        assertThat(order.createOrderMenu()).contains("<주문 메뉴>")
+        assertThat(order.createOrderMenuInfo()).contains("<주문 메뉴>")
                 .contains("해산물파스타 2개").contains("레드와인 1개").contains("초코케이크 1개");
     }
 

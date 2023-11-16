@@ -1,11 +1,8 @@
 package christmas.domain;
 
-import christmas.constant.Benefit;
 import christmas.constant.DateRange;
 import christmas.constant.ErrorMessage;
 import christmas.constant.Price;
-
-import java.util.Map;
 
 public class ReservationInfo {
 
@@ -59,7 +56,11 @@ public class ReservationInfo {
 
     public String printOrderMenu() {
 
-        return order.createOrderMenu();
+        StringBuilder builder = new StringBuilder();
+        builder.append("<주문 메뉴>").append(LINE_SEPARATOR)
+                .append(order.createOrderMenuInfo());
+
+        return builder.toString();
     }
 
     public String printOrderPrice() {
