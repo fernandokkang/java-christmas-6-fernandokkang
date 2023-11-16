@@ -1,6 +1,6 @@
 package christmas.domain;
 
-import christmas.constant.Benefit;
+import christmas.constant.BenefitMessage;
 import christmas.constant.ErrorMessage;
 import christmas.constant.Price;
 
@@ -118,84 +118,7 @@ public class Order {
         return sum;
     }
 
-    public String discountInfo(String date) {
-
-        Map<String, Integer> options = calculateDiscountPrice(date);
-
-        StringBuilder builder = new StringBuilder();
-        for (String key : options.keySet()) {
-            if (options.get(key) != 0) {
-                builder.append(key).append(": ")
-                        .append(Price.df.format(-1 * options.get(key))).append("원\n");
-            }
-        }
-
-        return builder.toString();
-    }
-
-    private Map<String, Integer> calculateDiscountPrice(String date) {
-
-        Map<String, Integer> options = Discount.getDiscountEventOptions(date);
-        int discountPrice = 0;
-
-        for (String key : options.keySet()) {
-            if (key.equals(Benefit.WEEKDAY_DISCOUNT)) {
-                discountPrice = options.get(key) *
-                        calculateDiscountMenuCount(MenuGroup.DESSERT.getMenuType());
-                options.replace(Benefit.WEEKDAY_DISCOUNT, discountPrice);
-            }
-            if (key.equals(Benefit.WEEKEND_DISCOUNT)) {
-                discountPrice = options.get(key) *
-                        calculateDiscountMenuCount(MenuGroup.MAIN_MENU.getMenuType());
-                options.replace(Benefit.WEEKEND_DISCOUNT, discountPrice);
-            }
-        }
-
-        saveDiscountPrice(options);
-
-        return options;
-    }
-
-    private int calculateDiscountMenuCount(String menuType) {
-
-        int count = 0;
-
-        for (String key : orders.keySet()) {
-
-            Menu menu = Menu.findMenu(key);
-            MenuGroup menuGroup = MenuGroup.findByMenu(menu.getMenuName());
-
-            if (menuGroup.getMenuType().equals(menuType)) {
-
-                count += Integer.parseInt(orders.get(key));
-            }
-        }
-
-        return count;
-    }
-
-    public int getDiscountPrice() {
-        return discountPrice;
-    }
-
-    private void saveDiscountPrice(Map<String, Integer> options) {
-
-        for (String key : options.keySet()) {
-
-            discountPrice += options.get(key);
-        }
-
-        if(!isExceedMinimumOrderPrice()) {
-            discountPrice = 0;
-        }
-    }
-
-    private boolean isExceedMinimumOrderPrice() {
-
-        if(calculateOrderPrice() > Price.MINIMUM_PRICE_APPLY_EVENT) {
-            return true;
-        }
-
-        return false;
+    public Map<String, String> getOrders() {
+        return orders;
     }
 }

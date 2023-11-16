@@ -1,6 +1,6 @@
 package christmas.constant;
 
-public class Benefit {
+public class BenefitMessage {
     public static final String CHRISTMAS_D_DAY_DISCOUNT = "크리스마스 디데이 할인";
     public static final String WEEKDAY_DISCOUNT = "평일 할인";
     public static final String WEEKEND_DISCOUNT = "주말 할인";

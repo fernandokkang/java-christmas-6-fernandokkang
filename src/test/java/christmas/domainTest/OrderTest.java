@@ -123,7 +123,7 @@ public class OrderTest extends NsTest{
         String orderMenu = "해산물파스타-2,레드와인-1,초코케이크-1";
         Order order = new Order(orderMenu);
 
-        assertThat(order.createOrderMenuInfo()).contains("<주문 메뉴>")
+        assertThat(order.createOrderMenuInfo())
                 .contains("해산물파스타 2개").contains("레드와인 1개").contains("초코케이크 1개");
     }
 
@@ -158,20 +158,6 @@ public class OrderTest extends NsTest{
             }
         }
        assertThat(count).isEqualTo(2);
-    }
-
-    @Test
-    @DisplayName("할인 내역 출력 테스트")
-    void calculateDiscountPriceTest() {
-
-        String date = "10";
-        //12월 10일 일요일, 평일할인, 특별할인 적용일
-        String orderMenu = "해산물파스타-2,레드와인-1,초코케이크-1";
-
-        Order order = new Order(orderMenu);
-        assertThat(order.discountInfo(date)).contains("크리스마스 디데이 할인: -1,900원")
-                .contains("평일 할인: -2,023원").contains("특별 할인: -1,000원");
-
     }
 
     @Override

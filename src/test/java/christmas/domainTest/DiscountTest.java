@@ -24,8 +24,8 @@ public class DiscountTest {
         Map<String, Integer> options =
                 Discount.getDiscountEventOptions(date);
 
-        assertThat(options).containsEntry("크리스마스 디데이 할인",1300)
-                .containsEntry("평일 할인",Price.WEEKDAY_DESSERT_DISCOUNT_PRICE);
+        assertThat(options).containsEntry("크리스마스 디데이 할인",-1300)
+                .containsEntry("평일 할인",-Price.WEEKDAY_DESSERT_DISCOUNT_PRICE);
     }
 
     @Test
@@ -37,9 +37,9 @@ public class DiscountTest {
         Map<String, Integer> options =
         Discount.getDiscountEventOptions(date);
 
-        assertThat(options).containsEntry("크리스마스 디데이 할인",1900)
-                .containsEntry("평일 할인",Price.WEEKDAY_DESSERT_DISCOUNT_PRICE)
-                .containsEntry("특별 할인",Price.SPECIAL_DISCOUNT_PRICE);
+        assertThat(options).containsEntry("크리스마스 디데이 할인",-1900)
+                .containsEntry("평일 할인",-Price.WEEKDAY_DESSERT_DISCOUNT_PRICE)
+                .containsEntry("특별 할인",-Price.SPECIAL_DISCOUNT_PRICE);
     }
 
     @Test
@@ -51,8 +51,8 @@ public class DiscountTest {
         Map<String, Integer> options =
                 Discount.getDiscountEventOptions(date);
 
-        assertThat(options).containsEntry("크리스마스 디데이 할인",1800)
-                .containsEntry("주말 할인",Price.WEEKEND_MAIN_MENU_DISCOUNT_PRICE);
+        assertThat(options).containsEntry("크리스마스 디데이 할인",-1800)
+                .containsEntry("주말 할인",-Price.WEEKEND_MAIN_MENU_DISCOUNT_PRICE);
     }
 
     @Test
@@ -64,9 +64,9 @@ public class DiscountTest {
         Map<String, Integer> options =
                 Discount.getDiscountEventOptions(date);
 
-        assertThat(options).containsEntry("크리스마스 디데이 할인",3400)
-                .containsEntry("평일 할인",Price.WEEKDAY_DESSERT_DISCOUNT_PRICE)
-                .containsEntry("특별 할인",Price.SPECIAL_DISCOUNT_PRICE);
+        assertThat(options).containsEntry("크리스마스 디데이 할인",-3400)
+                .containsEntry("평일 할인",-Price.WEEKDAY_DESSERT_DISCOUNT_PRICE)
+                .containsEntry("특별 할인",-Price.SPECIAL_DISCOUNT_PRICE);
     }
 
     @Test
@@ -79,7 +79,7 @@ public class DiscountTest {
                 Discount.getDiscountEventOptions(date);
 
         assertThat(options)
-                .containsEntry("평일 할인",Price.WEEKDAY_DESSERT_DISCOUNT_PRICE);
+                .containsEntry("평일 할인",-Price.WEEKDAY_DESSERT_DISCOUNT_PRICE);
     }
 
     @Test
@@ -92,7 +92,7 @@ public class DiscountTest {
                 Discount.getDiscountEventOptions(date);
 
         assertThat(options)
-                .containsEntry("평일 할인",Price.WEEKDAY_DESSERT_DISCOUNT_PRICE);
+                .containsEntry("평일 할인",-Price.WEEKDAY_DESSERT_DISCOUNT_PRICE);
     }
 
     @Test
@@ -105,7 +105,7 @@ public class DiscountTest {
                 Discount.getDiscountEventOptions(date);
 
         assertThat(options)
-                .containsEntry("평일 할인",Price.WEEKDAY_DESSERT_DISCOUNT_PRICE)
-                .containsEntry("특별 할인",Price.SPECIAL_DISCOUNT_PRICE);
+                .containsEntry("평일 할인",-Price.WEEKDAY_DESSERT_DISCOUNT_PRICE)
+                .containsEntry("특별 할인",-Price.SPECIAL_DISCOUNT_PRICE);
     }
 }

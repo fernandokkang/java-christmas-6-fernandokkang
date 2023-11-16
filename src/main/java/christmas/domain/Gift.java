@@ -1,6 +1,6 @@
 package christmas.domain;
 
-import christmas.constant.Benefit;
+import christmas.constant.BenefitMessage;
 import christmas.constant.Price;
 
 public enum Gift {
@@ -46,7 +46,7 @@ public enum Gift {
         }
 
         builder.append(menu.getMenuName())
-                .append(" 1개");
+                .append(" ").append(BenefitMessage.NUMBER_OF_GIFT);
 
         return builder.toString();
     }
@@ -56,7 +56,7 @@ public enum Gift {
         StringBuilder builder = new StringBuilder();
 
         if(getGiftPrice() != 0) {
-            builder.append(Benefit.GIFT_EVENT).append(": ")
+            builder.append(BenefitMessage.GIFT_EVENT).append(": ")
                     .append(Price.df.format(-1 * getGiftPrice()))
                     .append("원\n");
         }

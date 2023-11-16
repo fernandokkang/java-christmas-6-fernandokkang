@@ -45,7 +45,7 @@ public class PlannerServiceImpl implements PlannerService {
     @Override
     public String printBenefit() {
 
-        return reservationInfo.printBenefit();
+        return reservationInfo.printBenefitInfo();
     }
 
     @Override

@@ -11,6 +11,7 @@ public class ReservationInfo {
     private Order order;
     private Gift gift;
     private Badge badge;
+    private Benefit benefit;
 
     public void makeReservation(String date) {
 
@@ -22,6 +23,7 @@ public class ReservationInfo {
     public void submitOrder(String orderMenu) {
 
         order = new Order(orderMenu);
+        benefit = new Benefit();
     }
 
     private int isInteger(String date) {
@@ -68,7 +70,7 @@ public class ReservationInfo {
         StringBuilder builder = new StringBuilder();
         builder.append("<할인 전 총주문 금액>")
                 .append(LINE_SEPARATOR)
-                .append(Price.df.format(order.calculateOrderPrice())).append("원")
+                .append(Price.df.format(order.calculateOrderPrice())).append(Price.WON)
                 .append(LINE_SEPARATOR);
 
         return builder.toString();
@@ -76,30 +78,27 @@ public class ReservationInfo {
 
     public String printGiftInfo() {
 
-        gift = Gift.giveGift(order.calculateOrderPrice());
-
         StringBuilder builder = new StringBuilder();
         builder.append("<증정 메뉴>").append(LINE_SEPARATOR);
-        builder.append(gift.getGiftInfo()).append(LINE_SEPARATOR);
+        builder.append(benefit.getGiftInfo(order.calculateOrderPrice())).append(LINE_SEPARATOR);
 
         return builder.toString();
     }
 
-    public String printBenefit() {
+    public String printBenefitInfo() {
 
         StringBuilder builder = new StringBuilder();
         builder.append("<혜택 내역>").append(LINE_SEPARATOR);
 
-        String discountInfo = order.discountInfo(date);
+        String benefitInfo = benefit.getBenefitInfo(date, order.getOrders());
 
-        if((discountInfo.equals("")
-                && gift.getGiftPriceInfo().equals(""))
-                || order.calculateOrderPrice() < Price.MINIMUM_PRICE_APPLY_EVENT){
+        if(order.calculateOrderPrice() < Price.MINIMUM_PRICE_APPLY_EVENT
+                || benefitInfo.equals("")) {
+
             builder.append("없음").append(LINE_SEPARATOR);
             return builder.toString();
         }
-        builder.append(discountInfo);
-        builder.append(gift.getGiftPriceInfo());
+        builder.append(benefitInfo);
 
         return builder.toString();
     }
@@ -108,12 +107,8 @@ public class ReservationInfo {
 
         StringBuilder builder = new StringBuilder();
 
-        int benefitPrice = order.getDiscountPrice() +
-                gift.getGiftPrice();
-
         builder.append("<총혜택 금액>").append(LINE_SEPARATOR)
-                .append(Price.df.format(-1*benefitPrice))
-                .append("원").append(LINE_SEPARATOR);
+                .append(benefit.getBenefitPrice(order.calculateOrderPrice()));
 
         return builder.toString();
     }
@@ -122,25 +117,16 @@ public class ReservationInfo {
 
         StringBuilder builder = new StringBuilder();
 
-        int expectedPayment = order.calculateOrderPrice() -
-                order.getDiscountPrice();
-
         builder.append("<할인 후 예상 결제 금액>").append(LINE_SEPARATOR)
-                .append(Price.df.format(expectedPayment))
-                .append("원").append(LINE_SEPARATOR);
+                .append(benefit.getExpectedPayment(order.calculateOrderPrice()));
 
         return builder.toString();
     }
 
     public String printEventBadge() {
 
-        int benefitPrice = order.getDiscountPrice() +
-                gift.getGiftPrice();
-        badge = Badge.giveBadge(benefitPrice);
-
         StringBuilder builder = new StringBuilder();
-        builder.append("<12월 이벤트 배지>").append(LINE_SEPARATOR)
-                .append(badge.getBadgeTypeInfo());
+        builder.append(benefit.getBadgeInfo());
 
         return builder.toString();
     }
