@@ -11,7 +11,6 @@ import java.util.stream.Collectors;
 public class Order {
 
     private final Map<String, String> orders;
-    private int discountPrice;
 
     public Order(String orderMenu) {
 
