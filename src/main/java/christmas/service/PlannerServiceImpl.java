@@ -29,6 +29,7 @@ public class PlannerServiceImpl implements PlannerService {
                 .append(printOrderMenu())
                 .append(LINE_SEPARATOR)
                 .append(printOrderPrice())
+                .append(LINE_SEPARATOR)
                 .append(printGift())
                 .append(LINE_SEPARATOR)
                 .append(printBenefit())

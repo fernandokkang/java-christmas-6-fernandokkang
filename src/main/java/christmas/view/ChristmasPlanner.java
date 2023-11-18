@@ -5,7 +5,7 @@ import christmas.controller.PlannerController;
 
 public class ChristmasPlanner {
 
-    PlannerController plannerController = new PlannerController();
+    private final PlannerController plannerController = new PlannerController();
     private final InputView inputView = new InputView(plannerController);
     private final OutputView outputView = new OutputView(plannerController);
 
