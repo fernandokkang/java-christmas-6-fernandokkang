@@ -5,14 +5,16 @@ import christmas.constant.Price;
 
 public enum Gift {
 
-    EMPTY("없음"),
-    GIFT(Menu.CHAMPAGNE.getMenuName());
+    EMPTY(BenefitMessage.NO_GIFT, 0),
+    GIFT(Menu.CHAMPAGNE.getMenuName(), Menu.CHAMPAGNE.getPrice());
 
     private String giftName;
+    private int giftPrice;
 
-    private Gift(String giftName) {
+    private Gift(String giftName, int giftPrice) {
 
         this.giftName = giftName;
+        this.giftPrice = giftPrice;
     }
 
     public static Gift giveGift(int orderPrice) {
@@ -20,35 +22,26 @@ public enum Gift {
         if(orderPrice >= Price.MINIMUM_PRICE_RECEIVE_GIFT) {
             return GIFT;
         }
-
         return EMPTY;
     }
 
     private String getGiftName() {
+
         return giftName;
     }
 
     public int getGiftPrice() {
 
-        Menu menu = Menu.findMenu(getGiftName());
-
-        return menu.getPrice();
+        return giftPrice;
     }
 
     public String getGiftInfo() {
 
-        StringBuilder builder = new StringBuilder();
-        Menu menu = Menu.findMenu(getGiftName());
-
-        if(menu.name().equals("EMPTY")){
-            builder.append("없음");
-            return builder.toString();
+        if(this == EMPTY) {
+            return giftName;
         }
 
-        builder.append(menu.getMenuName())
-                .append(" ").append(BenefitMessage.NUMBER_OF_GIFT);
-
-        return builder.toString();
+        return giftName+" "+BenefitMessage.NUMBER_OF_GIFT;
     }
 
     public String getGiftPriceInfo() {

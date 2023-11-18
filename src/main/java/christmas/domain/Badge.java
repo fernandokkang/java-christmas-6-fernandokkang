@@ -33,16 +33,7 @@ public enum Badge {
 
         return EMPTY;
     }
-    private String getType() {
+    public String getType() {
         return type;
-    }
-
-    public String getBadgeTypeInfo() {
-
-        StringBuilder builder = new StringBuilder();
-
-        builder.append(getType()).append(LINE_SEPARATOR);
-
-        return builder.toString();
     }
 }

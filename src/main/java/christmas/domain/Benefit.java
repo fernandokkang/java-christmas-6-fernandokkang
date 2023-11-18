@@ -88,7 +88,7 @@ public class Benefit {
         badge = Badge.giveBadge(benefitPrice);
 
         StringBuilder builder = new StringBuilder();
-        builder.append(badge.getBadgeTypeInfo())
+        builder.append(badge.getType())
                 .append(LINE_SEPARATOR);
 
         return builder.toString();

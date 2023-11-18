@@ -18,7 +18,7 @@ public class BadgeTest {
 
         Badge badge = Badge.giveBadge(benefitPrice);
 
-        assertThat(badge.getBadgeTypeInfo())
+        assertThat(badge.getType())
                 .contains("산타");
     }
 
@@ -30,7 +30,7 @@ public class BadgeTest {
 
         Badge badge = Badge.giveBadge(benefitPrice);
 
-        assertThat(badge.getBadgeTypeInfo())
+        assertThat(badge.getType())
                 .contains("트리");
     }
 
@@ -42,7 +42,7 @@ public class BadgeTest {
 
         Badge badge = Badge.giveBadge(benefitPrice);
 
-        assertThat(badge.getBadgeTypeInfo())
+        assertThat(badge.getType())
                 .contains("별");
     }
 
@@ -54,7 +54,7 @@ public class BadgeTest {
 
         Badge badge = Badge.giveBadge(benefitPrice);
 
-        assertThat(badge.getBadgeTypeInfo())
+        assertThat(badge.getType())
                 .contains("없음");
     }
 }
