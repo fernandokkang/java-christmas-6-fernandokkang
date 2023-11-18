@@ -9,15 +9,13 @@ public class ReservationInfo {
     private static final String LINE_SEPARATOR = System.lineSeparator();
     private String date;
     private Order order;
-    private Gift gift;
-    private Badge badge;
     private Benefit benefit;
 
     public void makeReservation(String date) {
 
         this.date = date;
-        int parseDate = isInteger(date);
-        isCorrectDateRange(parseDate);
+        int parseDate = parseDate(date);
+        validateDateRange(parseDate);
     }
 
     public void submitOrder(String orderMenu) {
@@ -26,7 +24,7 @@ public class ReservationInfo {
         benefit = new Benefit();
     }
 
-    private int isInteger(String date) {
+    private int parseDate(String date) {
 
         try {
 
@@ -37,7 +35,7 @@ public class ReservationInfo {
             throw new IllegalArgumentException(ErrorMessage.DATE_FORMAT_ERROR_MESSAGE.name());
         }
     }
-    private void isCorrectDateRange(int date) {
+    private void validateDateRange(int date) {
 
         if(DateRange.DECEMBER.getFirstDay() > date ||
                 DateRange.DECEMBER.getLastDay() < date) {
