@@ -19,6 +19,30 @@ public class PlannerServiceImpl implements PlannerService {
     }
 
     @Override
+    public String printReservationPaper() {
+
+        String LINE_SEPARATOR = System.lineSeparator();
+
+        StringBuilder paper = new StringBuilder();
+        paper.append(printMessage())
+                .append(LINE_SEPARATOR)
+                .append(printOrderMenu())
+                .append(LINE_SEPARATOR)
+                .append(printOrderPrice())
+                .append(printGift())
+                .append(LINE_SEPARATOR)
+                .append(printBenefit())
+                .append(LINE_SEPARATOR)
+                .append(printBenefitPrice())
+                .append(LINE_SEPARATOR)
+                .append(printExpectedPayment())
+                .append(LINE_SEPARATOR)
+                .append(printEventBadge());
+
+        return paper.toString();
+    }
+
+    @Override
     public String printMessage() {
 
         return reservationInfo.printMessage();

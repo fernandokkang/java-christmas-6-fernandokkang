@@ -15,14 +15,7 @@ public class ChristmasPlanner {
             inputView.enterVisitDate();
             inputView.enterOrderMenu();
 
-            outputView.printMessage();
-            outputView.printOrderMenu();
-            outputView.printOrderPrice();
-            outputView.printGift();
-            outputView.printBenefit();
-            outputView.printBenefitPrice();
-            outputView.printExpectedPayment();
-            outputView.printEventBadge();
+            outputView.printReservationPaper();
 
         } catch (Exception e) {
 
