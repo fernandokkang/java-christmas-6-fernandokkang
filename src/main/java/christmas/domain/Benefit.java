@@ -16,7 +16,7 @@ public class Benefit {
         gift = Gift.giveGift(orderPrice);
 
         StringBuilder builder = new StringBuilder();
-        builder.append(gift.getGiftInfo());
+        builder.append(gift.getGiftInfo()).append(LINE_SEPARATOR);
 
         return builder.toString();
     }
@@ -88,8 +88,8 @@ public class Benefit {
         badge = Badge.giveBadge(benefitPrice);
 
         StringBuilder builder = new StringBuilder();
-        builder.append("<12월 이벤트 배지>").append(LINE_SEPARATOR)
-                .append(badge.getBadgeTypeInfo());
+        builder.append(badge.getBadgeTypeInfo())
+                .append(LINE_SEPARATOR);
 
         return builder.toString();
     }

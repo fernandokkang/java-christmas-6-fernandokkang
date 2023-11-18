@@ -1,8 +1,6 @@
 package christmas.domain;
 
-import christmas.constant.DateRange;
-import christmas.constant.ErrorMessage;
-import christmas.constant.Price;
+import christmas.constant.*;
 
 public class ReservationInfo {
 
@@ -37,95 +35,63 @@ public class ReservationInfo {
     }
     private void validateDateRange(int date) {
 
-        if(DateRange.DECEMBER.getFirstDay() > date ||
-                DateRange.DECEMBER.getLastDay() < date) {
+        if(Month.DECEMBER.getFirstDay() > date ||
+                Month.DECEMBER.getLastDay() < date) {
 
             throw new IllegalArgumentException(ErrorMessage.DATE_RANGE_ERROR_MESSAGE.name());
         }
     }
 
+    private String printSection(PrintType printType, String content) {
+
+        return String.format("%s%n%s%n", printType.getLabel(),content);
+    }
+
     public String printMessage() {
 
-        StringBuilder builder = new StringBuilder();
-        builder.append("12월 ").append(date)
-                .append("일에 우테코 식당에서 받을 이벤트 혜택 미리 보기!")
-                .append(LINE_SEPARATOR);
-
-        return builder.toString();
+        return String.format(PrintType.EVENT_INFO_MESSAGE.getLabel(), Month.DECEMBER.getMonth(), date);
     }
 
     public String printOrderMenu() {
 
-        StringBuilder builder = new StringBuilder();
-        builder.append("<주문 메뉴>").append(LINE_SEPARATOR)
-                .append(order.createOrderMenuInfo());
-
-        return builder.toString();
+        return printSection(PrintType.ORDER_MENU, order.createOrderMenuInfo());
     }
 
     public String printOrderPrice() {
 
-        StringBuilder builder = new StringBuilder();
-        builder.append("<할인 전 총주문 금액>")
-                .append(LINE_SEPARATOR)
-                .append(Price.df.format(order.calculateOrderPrice())).append(Price.WON)
-                .append(LINE_SEPARATOR);
-
-        return builder.toString();
+        return printSection(PrintType.ORDER_PRICE,
+                Price.df.format(order.calculateOrderPrice())+Price.WON+LINE_SEPARATOR);
     }
 
     public String printGiftInfo() {
 
-        StringBuilder builder = new StringBuilder();
-        builder.append("<증정 메뉴>").append(LINE_SEPARATOR);
-        builder.append(benefit.getGiftInfo(order.calculateOrderPrice())).append(LINE_SEPARATOR);
-
-        return builder.toString();
+        return printSection(PrintType.GIFT, benefit.getGiftInfo(order.calculateOrderPrice()));
     }
 
     public String printBenefitInfo() {
-
-        StringBuilder builder = new StringBuilder();
-        builder.append("<혜택 내역>").append(LINE_SEPARATOR);
 
         String benefitInfo = benefit.getBenefitInfo(date, order.getOrders());
 
         if(order.calculateOrderPrice() < Price.MINIMUM_PRICE_APPLY_EVENT
                 || benefitInfo.equals("")) {
 
-            builder.append("없음").append(LINE_SEPARATOR);
-            return builder.toString();
+            return printSection(PrintType.BENEFIT, BenefitMessage.NO_BENEFIT);
         }
-        builder.append(benefitInfo);
-
-        return builder.toString();
+        return printSection(PrintType.BENEFIT, benefitInfo);
     }
 
     public String printBenefitPrice() {
 
-        StringBuilder builder = new StringBuilder();
-
-        builder.append("<총혜택 금액>").append(LINE_SEPARATOR)
-                .append(benefit.getBenefitPrice(order.calculateOrderPrice()));
-
-        return builder.toString();
+        return printSection(PrintType.BENEFIT_PRICE, benefit.getBenefitPrice(order.calculateOrderPrice()));
     }
 
     public String printExpectedPayment() {
 
-        StringBuilder builder = new StringBuilder();
-
-        builder.append("<할인 후 예상 결제 금액>").append(LINE_SEPARATOR)
-                .append(benefit.getExpectedPayment(order.calculateOrderPrice()));
-
-        return builder.toString();
+        return printSection(PrintType.EXPECTED_PRICE, benefit.getExpectedPayment(order.calculateOrderPrice()));
     }
 
     public String printEventBadge() {
 
-        StringBuilder builder = new StringBuilder();
-        builder.append(benefit.getBadgeInfo());
-
-        return builder.toString();
+        return String.format(PrintType.EVENT_BADGE.getLabel(), Month.DECEMBER.getMonth()) + benefit.getBadgeInfo();
     }
 }

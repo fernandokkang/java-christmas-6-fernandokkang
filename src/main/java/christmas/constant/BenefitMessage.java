@@ -7,4 +7,5 @@ public class BenefitMessage {
     public static final String SPECIAL_DISCOUNT = "특별 할인";
     public static final String GIFT_EVENT = "증정 이벤트";
     public static final String NUMBER_OF_GIFT = "1개";
+    public static final String NO_BENEFIT = "없음";
 }
