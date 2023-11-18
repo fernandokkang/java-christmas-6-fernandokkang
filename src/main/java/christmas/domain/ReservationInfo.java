@@ -42,56 +42,51 @@ public class ReservationInfo {
         }
     }
 
-    private String printSection(PrintType printType, String content) {
+    public String getReservationDate() {
 
-        return String.format("%s%n%s%n", printType.getLabel(),content);
+        return date;
     }
 
-    public String printMessage() {
+    public String getOrderMenu() {
 
-        return String.format(PrintType.EVENT_INFO_MESSAGE.getLabel(), Month.DECEMBER.getMonth(), date);
+        return order.createOrderMenuInfo();
     }
 
-    public String printOrderMenu() {
+    public String getOrderPrice() {
 
-        return printSection(PrintType.ORDER_MENU, order.createOrderMenuInfo());
+        return Price.df.format(order.calculateOrderPrice())+Price.WON+LINE_SEPARATOR;
     }
 
-    public String printOrderPrice() {
+    public String getGiftInfo() {
 
-        return printSection(PrintType.ORDER_PRICE,
-                Price.df.format(order.calculateOrderPrice())+Price.WON+LINE_SEPARATOR);
+        return benefit.getGiftInfo(order.calculateOrderPrice());
     }
 
-    public String printGiftInfo() {
+    public String getBenefitInfo() {
 
-        return printSection(PrintType.GIFT, benefit.getGiftInfo(order.calculateOrderPrice()));
-    }
-
-    public String printBenefitInfo() {
-
+        int orderPrice = order.calculateOrderPrice();
+        boolean isLessThanMinimumPrice = orderPrice < Price.MINIMUM_PRICE_APPLY_EVENT;
         String benefitInfo = benefit.getBenefitInfo(date, order.getOrders());
 
-        if(order.calculateOrderPrice() < Price.MINIMUM_PRICE_APPLY_EVENT
-                || benefitInfo.equals("")) {
+        if(isLessThanMinimumPrice||benefitInfo.equals("")) {
 
-            return printSection(PrintType.BENEFIT, BenefitMessage.NO_BENEFIT);
+            return BenefitMessage.NO_BENEFIT;
         }
-        return printSection(PrintType.BENEFIT, benefitInfo);
+        return benefitInfo;
     }
 
-    public String printBenefitPrice() {
+    public String getBenefitPrice() {
 
-        return printSection(PrintType.BENEFIT_PRICE, benefit.getBenefitPrice(order.calculateOrderPrice()));
+        return benefit.getBenefitPrice(order.calculateOrderPrice());
     }
 
-    public String printExpectedPayment() {
+    public String getExpectedPayment() {
 
-        return printSection(PrintType.EXPECTED_PRICE, benefit.getExpectedPayment(order.calculateOrderPrice()));
+        return benefit.getExpectedPayment(order.calculateOrderPrice());
     }
 
-    public String printEventBadge() {
+    public String getEventBadgeInfo() {
 
-        return String.format(PrintType.EVENT_BADGE.getLabel(), Month.DECEMBER.getMonth()) + benefit.getBadgeInfo();
+        return benefit.getBadgeInfo();
     }
 }

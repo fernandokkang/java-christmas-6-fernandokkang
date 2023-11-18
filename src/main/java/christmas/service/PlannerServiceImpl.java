@@ -1,5 +1,7 @@
 package christmas.service;
 
+import christmas.constant.Month;
+import christmas.util.Printer;
 import christmas.domain.ReservationInfo;
 
 public class PlannerServiceImpl implements PlannerService {
@@ -21,10 +23,8 @@ public class PlannerServiceImpl implements PlannerService {
     @Override
     public String printReservationPaper() {
 
-        String LINE_SEPARATOR = System.lineSeparator();
-
         StringBuilder paper = new StringBuilder();
-        paper.append(printMessage())
+        paper.append(printEventMessage())
                 .append(printOrderMenu())
                 .append(printOrderPrice())
                 .append(printGift())
@@ -37,50 +37,53 @@ public class PlannerServiceImpl implements PlannerService {
     }
 
     @Override
-    public String printMessage() {
+    public String printEventMessage() {
 
-        return reservationInfo.printMessage();
+        return Printer.EVENT_INFO_MESSAGE.
+                printEventMessage(Month.DECEMBER.getMonth(),
+                        reservationInfo.getReservationDate());
     }
 
     @Override
     public String printOrderMenu() {
 
-        return reservationInfo.printOrderMenu();
+        return Printer.ORDER_MENU.print(reservationInfo.getOrderMenu());
     }
 
     @Override
     public String printOrderPrice() {
 
-        return reservationInfo.printOrderPrice();
+        return Printer.ORDER_PRICE.print(reservationInfo.getOrderPrice());
     }
 
     @Override
     public String printGift() {
 
-        return reservationInfo.printGiftInfo();
+        return Printer.GIFT.print(reservationInfo.getGiftInfo());
     }
 
     @Override
     public String printBenefit() {
 
-        return reservationInfo.printBenefitInfo();
+        return Printer.BENEFIT.print(reservationInfo.getBenefitInfo());
     }
 
     @Override
     public String printBenefitPrice() {
 
-        return reservationInfo.printBenefitPrice();
+        return Printer.BENEFIT_PRICE.print(reservationInfo.getBenefitPrice());
     }
 
     @Override
     public String printExpectedPayment() {
 
-        return reservationInfo.printExpectedPayment();
+        return Printer.EXPECTED_PRICE.print(reservationInfo.getExpectedPayment());
     }
 
     @Override
     public String printEventBadge() {
 
-        return reservationInfo.printEventBadge();
+        return Printer.EVENT_BADGE.printEventBadge(Month.DECEMBER.getMonth(),
+                reservationInfo.getEventBadgeInfo());
     }
 }

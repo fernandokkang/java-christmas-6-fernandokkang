@@ -16,6 +16,6 @@ public class PlannerServiceTest {
 
         reservationInfo.submitOrder(orderMenu);
 
-        System.out.println(reservationInfo.printOrderMenu());
+        System.out.println(reservationInfo.getOrderMenu());
     }
 }
