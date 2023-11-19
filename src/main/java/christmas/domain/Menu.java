@@ -37,7 +37,6 @@ public enum Menu {
         return Menu.EMPTY;
     }
 
-
     public String getMenuName() {
         return menuName;
     }

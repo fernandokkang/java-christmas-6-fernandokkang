@@ -25,11 +25,6 @@ public enum Gift {
         return EMPTY;
     }
 
-    private String getGiftName() {
-
-        return giftName;
-    }
-
     public int getGiftPrice() {
 
         return giftPrice;
