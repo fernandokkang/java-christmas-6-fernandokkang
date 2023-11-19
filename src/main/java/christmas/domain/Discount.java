@@ -16,14 +16,14 @@ public enum Discount {
 
     private final List<String> dateList;
     private final int price;
-
+    private static int sumDiscountPrice;
     private Discount(List<String> dateList, int price) {
 
         this.dateList = dateList;
         this.price = price;
     }
 
-    public static Map<String, Integer> getDiscountEventOptions(String date) {
+    public static Map<String, Integer> makeDiscountEventOptions(String date) {
 
         String[] dayOfWeekEng = {"MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"};
 
@@ -95,6 +95,43 @@ public enum Discount {
         }
         return EMPTY.price;
     }
+
+    public static String discountInfo(Map<String, String> orders, String date) {
+
+        Map<String, Integer> menuCounts = calculateDiscountMenuCount(orders);
+        Map<String, Integer> options = makeDiscountEventOptions(date);
+
+        StringBuilder builder = new StringBuilder();
+        String LINE_SEPARATOR = System.lineSeparator();
+
+        for(String key : options.keySet()) {
+            builder.append(key).append(": ");
+            if(key.equals(BenefitMessage.WEEKDAY_DISCOUNT)) {
+                builder.append(Price.df.format(options.get(key) *
+                                menuCounts.get(MenuGroup.DESSERT.getMenuType())))
+                        .append(Price.WON).append(LINE_SEPARATOR);
+                sumDiscountPrice += options.get(key) * menuCounts.get(MenuGroup.DESSERT.getMenuType());
+                continue;
+            }
+            if(key.equals(BenefitMessage.WEEKEND_DISCOUNT)) {
+                builder.append(Price.df.format(options.get(key) *
+                                menuCounts.get(MenuGroup.MAIN_MENU.getMenuType())))
+                        .append(Price.WON).append(LINE_SEPARATOR);
+                sumDiscountPrice += options.get(key) * menuCounts.get(MenuGroup.MAIN_MENU.getMenuType());
+                continue;
+            }
+            builder.append(Price.df.format(options.get(key)))
+                    .append(Price.WON).append(LINE_SEPARATOR);
+            sumDiscountPrice += options.get(key);
+        }
+        return builder.toString();
+    }
+
+    private static void function() {
+
+
+    }
+
     public static Map<String, Integer> calculateDiscountMenuCount(Map<String, String> orders) {
 
         Map<String, Integer> discountMenus = initializeMap();
@@ -119,5 +156,9 @@ public enum Discount {
         discountMenus.put(MenuGroup.MAIN_MENU.getMenuType(), 0);
 
         return discountMenus;
+    }
+
+    public static int getSumDiscountPrice() {
+        return sumDiscountPrice;
     }
 }

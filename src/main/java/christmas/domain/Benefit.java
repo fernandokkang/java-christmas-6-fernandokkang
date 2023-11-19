@@ -24,34 +24,7 @@ public class Benefit {
     public String getBenefitInfo(String date, Map<String, String> orders) {
 
         StringBuilder builder = new StringBuilder();
-
-        Map<String, Integer> options = Discount.getDiscountEventOptions(date);
-        Map<String, Integer> discountMenu = Discount.calculateDiscountMenuCount(orders);
-
-        for(String key : options.keySet()) {
-
-            builder.append(key).append(": ");
-            if(key.equals(BenefitMessage.WEEKDAY_DISCOUNT)) {
-                builder.append(Price.df.format( options.get(key) *
-                        discountMenu.get(MenuGroup.DESSERT.getMenuType())))
-                        .append(Price.WON).append(LINE_SEPARATOR);
-                discountPrice += options.get(key) *
-                        discountMenu.get(MenuGroup.DESSERT.getMenuType());
-                continue;
-            }
-            if(key.equals(BenefitMessage.WEEKEND_DISCOUNT)) {
-                builder.append(Price.df.format(options.get(key) *
-                        discountMenu.get(MenuGroup.MAIN_MENU.getMenuType())))
-                        .append(Price.WON).append(LINE_SEPARATOR);
-                discountPrice += options.get(key) *
-                        discountMenu.get(MenuGroup.MAIN_MENU.getMenuType());
-                continue;
-            }
-            builder.append(Price.df.format(options.get(key)))
-                    .append(Price.WON).append(LINE_SEPARATOR);
-            discountPrice += options.get(key);
-        }
-
+        builder.append(Discount.discountInfo(orders, date));
         builder.append(gift.getGiftPriceInfo());
 
         return builder.toString();
@@ -59,6 +32,9 @@ public class Benefit {
 
     public String getBenefitPrice(int orderPrice) {
 
+        if(orderPrice >= Price.MINIMUM_PRICE_APPLY_EVENT) {
+            discountPrice = Discount.getSumDiscountPrice();
+        }
         int benefitPrice = discountPrice - gift.getGiftPrice();
 
         StringBuilder builder = new StringBuilder();

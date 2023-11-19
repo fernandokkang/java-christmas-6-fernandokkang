@@ -31,7 +31,7 @@ public class BenefitTest {
 
         StringBuilder builder = new StringBuilder();
 
-        Map<String, Integer> options = Discount.getDiscountEventOptions(date);
+        Map<String, Integer> options = Discount.makeDiscountEventOptions(date);
         Map<String, Integer> discountMenu = Discount.calculateDiscountMenuCount(orders);
 
         for(String key : options.keySet()) {
