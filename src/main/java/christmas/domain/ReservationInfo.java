@@ -70,7 +70,7 @@ public class ReservationInfo {
 
         if(isLessThanMinimumPrice||benefitInfo.equals("")) {
 
-            return BenefitMessage.NO_BENEFIT;
+            return BenefitMessage.NO_BENEFIT + LINE_SEPARATOR;
         }
         return benefitInfo;
     }

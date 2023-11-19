@@ -97,24 +97,26 @@ public enum Discount {
     }
     public static Map<String, Integer> calculateDiscountMenuCount(Map<String, String> orders) {
 
-        Map<String, Integer> discountMenus = new HashMap<>();
-        discountMenus.put(MenuGroup.DESSERT.getMenuType(), 0);
-        discountMenus.put(MenuGroup.MAIN_MENU.getMenuType(), 0);
-
+        Map<String, Integer> discountMenus = initializeMap();
         for(String key : orders.keySet()) {
             Menu menu = Menu.findMenu(key);
             MenuGroup menuGroup = MenuGroup.findByMenu(menu.getMenuName());
 
-            if(menuGroup.getMenuType().equals(MenuGroup.DESSERT.getMenuType())) {
-                discountMenus.put(MenuGroup.DESSERT.getMenuType(),
-                        discountMenus.get(MenuGroup.DESSERT.getMenuType()) + Integer.parseInt(orders.get(key)));
-            }
+            if(menuGroup.getMenuType().equals(MenuGroup.DESSERT.getMenuType()) ||
+                menuGroup.getMenuType().equals(MenuGroup.MAIN_MENU.getMenuType())) {
 
-            if(menuGroup.getMenuType().equals(MenuGroup.MAIN_MENU.getMenuType())) {
-                discountMenus.put(MenuGroup.MAIN_MENU.getMenuType(),
-                        discountMenus.get(MenuGroup.MAIN_MENU.getMenuType()) + Integer.parseInt(orders.get(key)));
+                int menuCount = Integer.parseInt(orders.get(key));
+                discountMenus.merge(menuGroup.getMenuType(), menuCount, Integer::sum);
             }
         }
+        return discountMenus;
+    }
+
+    private static Map<String, Integer> initializeMap() {
+
+        Map<String, Integer> discountMenus = new HashMap<>();
+        discountMenus.put(MenuGroup.DESSERT.getMenuType(), 0);
+        discountMenus.put(MenuGroup.MAIN_MENU.getMenuType(), 0);
 
         return discountMenus;
     }

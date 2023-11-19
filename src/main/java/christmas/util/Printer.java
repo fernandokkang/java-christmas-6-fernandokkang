@@ -22,6 +22,7 @@ public enum Printer {
     }
 
     public String print(String content) {
+
         return String.format("%s%n%s%n", getFormat(),content);
     }
 
